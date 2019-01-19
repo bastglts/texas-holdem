@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   id="svg8"
+   version="1.1"
+   viewBox="0 0 621.55117 387.20595"
+   height="91.465973pc"
+   width="146.8231pc">
+  <defs
+     id="defs2">
+    <linearGradient
+       id="linearGradient1474">
+      <stop
+         style="stop-color:#008000;stop-opacity:1"
+         offset="0"
+         id="stop1472" />
+      <stop
+         style="stop-color:#0c190c;stop-opacity:1"
+         offset="1"
+         id="stop1470" />
+    </linearGradient>
+    <marker
+       style="overflow:visible"
+       id="Arrow1Lstart"
+       refX="0"
+       refY="0"
+       orient="auto">
+      <path
+         transform="matrix(0.8,0,0,0.8,10,0)"
+         style="fill:#008000;fill-opacity:1;fill-rule:evenodd;stroke:#ff0000;stroke-width:1.00000003pt;stroke-opacity:0"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         id="path839" />
+    </marker>
+    <radialGradient
+       r="198.5238"
+       fy="30.597799"
+       fx="102.06651"
+       cy="30.597799"
+       cx="102.06651"
+       gradientTransform="matrix(1.7084016,-0.00243831,0.00129486,1.11617,-122.00894,52.157242)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient1518"
+       xlink:href="#linearGradient1474" />
+  </defs>
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     transform="translate(241.60595,106.37973)"
+     id="layer1">
+    <ellipse
+       style="opacity:1;fill:url(#radialGradient1518);fill-opacity:1;stroke:#0f0c0c;stroke-width:17.22919846;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       ry="151.1217"
+       rx="268.29431"
+       cy="87.223244"
+       cx="69.169624"
+       id="path10" />
+  </g>
+</svg>

@@ -1,0 +1,16 @@
+{
+  "env": {
+    "es6":  true,
+    "jest": true,
+    "node": true
+  },
+  "extends": "standard",
+  "rules": {
+    "one-var": ["off"],
+    "comma-dangle": [ "error", "always-multiline" ],
+    "max-len": [ "warn", { "code" : 100 } ],
+    "no-multiple-empty-lines": [ "warn", { "max": 2 } ],
+    "no-multi-spaces": [ "off" ],
+    "semi": [ "error", "always" ]
+  }
+}
