@@ -37,6 +37,7 @@ import EventBus from '../utils/eventBus';
 
 export default {
   name: 'Register',
+
   data() {
     return {
       username: '',
@@ -44,6 +45,7 @@ export default {
       passwordCheck: '',
     };
   },
+
   methods: {
     validateBeforeRegister() {
       this.$validator.validateAll().then((result) => {
@@ -66,6 +68,7 @@ export default {
       });
     },
   },
+
   mounted() {
     const isUnique = usrname => AuthService.exists({
       username: usrname,

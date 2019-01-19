@@ -28,12 +28,14 @@ import EventBus from '../utils/eventBus';
 
 export default {
   name: 'Login',
+
   data() {
     return {
       username: '',
       password: '',
     };
   },
+
   methods: {
     validateBeforeLogin() {
       this.$validator.validateAll().then((result) => {
@@ -73,6 +75,7 @@ export default {
       });
     },
   },
+
   mounted() {
     const existsAlready = usrname => AuthService.exists({
       username: usrname,

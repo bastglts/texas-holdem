@@ -1,12 +1,12 @@
 <template>
   <div class="table">
-  
+    table component
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Table',
+  name: 'PokerTable',
 };
 </script>
 
