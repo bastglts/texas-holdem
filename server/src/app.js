@@ -25,10 +25,20 @@ app.use(cors({
   origin: 'http://localhost:8080',
   credentials: true,
 }));
+
+
+/* --------------- Configure cookies -------------- */
 app.use(cookieSession({
-  maxAge: 24 * 60 * 60 * 1000,
+  maxAge: 120 * 1000,
   keys: ['onetwoonetwothisisatest'],
 }));
+
+// Update a value in the cookie when receiving a request every minute top so that the set-cookie
+// header will be sent, thus extending the session expiration.
+app.use(function (req, res, next) {
+  req.session.nowInMinutes = Math.floor(Date.now() / 60e3);
+  next();
+});
 
 
 /* -------------- Configure passport -------------- */

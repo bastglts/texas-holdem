@@ -4,6 +4,7 @@
       <router-link v-if="isloggedIn" to="/profile" >{{ playerName }}</router-link>
       <router-link v-else to="/login" >Login</router-link> |
       <a @click="logout" >Logout</a>
+      <a @click="isLoggedIn" > - login test</a>
     </div>
     <h1>Online Texas Hold'em Poker</h1>
     <div id="nav">
