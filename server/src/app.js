@@ -7,6 +7,7 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const cookieSession = require('cookie-session');
+const socketIo = require('socket.io');
 
 const authRoutes = require('./routes/auth');
 const User = require('./models/user');
@@ -51,8 +52,20 @@ app.use(passport.session());
 
 
 /* ------- Create server and listen to port ------- */
-app.listen(8081, () => {
+const server = app.listen(8081, () => {
   console.log('server running on port 8081');
+});
+
+
+/* ---------- Create socket.io instance ----------- */
+const io = socketIo(server);
+
+io.on('connection', (socket) => {
+  console.log(socket.id);
+  socket.on('SEND_MSG', (data) => {
+    io.emit('MSG', data);
+    console.log(data);
+  });
 });
 
 
