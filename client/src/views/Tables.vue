@@ -35,5 +35,11 @@ export default {
       tableName: '',
     };
   },
+
+  methods: {
+    createTable() {
+      console.log('create table');
+    },
+  },
 };
 </script>
