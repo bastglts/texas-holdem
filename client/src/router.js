@@ -5,10 +5,11 @@ import Tables from './views/Tables.vue';
 import Login from './views/Login.vue';
 import Profile from './views/Profile.vue';
 import Register from './views/Register.vue';
+import auth from './utils/auth';
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
@@ -21,11 +22,13 @@ export default new Router({
       path: '/tables',
       name: 'tables',
       component: Tables,
+      meta: { requiresAuth: true },
     },
     {
       path: '/profile',
       name: 'profile',
       component: Profile,
+      meta: { requiresAuth: true },
     },
     {
       path: '/login',
@@ -47,3 +50,25 @@ export default new Router({
     },
   ],
 });
+
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    auth.isLoggedIn().then((result) => {
+      const { loggedIn } = result;
+
+      if (!loggedIn) {
+        next({
+          path: '/login',
+        });
+      } else {
+        next();
+      }
+    });
+  } else {
+    next();
+  }
+});
+
+
+export default router;

@@ -32,8 +32,11 @@ export default {
       auth.logout(this);
     },
 
-    isLoggedIn() {
-      auth.isLoggedIn(this);
+    async isLoggedIn() {
+      const { loggedIn, playerName } = await auth.isLoggedIn();
+
+      this.loggedIn = loggedIn;
+      this.playerName = playerName;
     },
   },
 

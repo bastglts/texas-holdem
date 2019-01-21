@@ -19,18 +19,20 @@ export default {
   /**
    * Checks if user is logged in.
    *
-   * Sends a get request to the server. Sets loggedIn and
-   * playerName in the component's data.
+   * Sends a get request to the server.
    *
-   * @param {*} ctx This keyword (the Vue component).
+   * @returns {{}} Object containing two propreties: loggedIn (boolean) and playerName (string).
    */
-  isLoggedIn(ctx) {
-    AuthService.isLoggedIn()
+  isLoggedIn() {
+    return AuthService.isLoggedIn()
       .then((response) => {
-        console.log('isLoggedIn response:', response);
+        const output = {
+          loggedIn: response.data.loggedIn,
+          playerName: (response.data.username || ''),
+        };
 
-        ctx.loggedIn = response.data.loggedIn;
-        ctx.playerName = (response.data.username || '');
+        console.log('isLoggedIn:', output);
+        return output;
       }).catch((err) => {
         console.log('isLoggedIn err:', err);
       });
@@ -50,6 +52,8 @@ export default {
       .then((response) => {
         ctx.playerName = '';
         ctx.loggedIn = response.data.loggedIn;
+
+        ctx.$router.push({ name: 'home' });
       }).catch((err) => {
         console.log('logout err:', err);
       });
@@ -71,7 +75,7 @@ export default {
     }).then(() => {
       EventBus.$emit('check-login');
 
-      ctx.$router.push({ name: 'home' });
+      ctx.$router.push({ name: 'tables' });
     }).catch((err) => {
       if (err.response.status === 401) {
         ctx.errors.add({
@@ -107,7 +111,7 @@ export default {
     }).then(() => {
       EventBus.$emit('check-login');
 
-      ctx.$router.push({ name: 'home' });
+      ctx.$router.push({ name: 'tables' });
     }).catch((err) => {
       console.log('register err:', err);
 
@@ -119,6 +123,7 @@ export default {
       ctx.errors.first('password');
     });
   },
+
 
   /**
    * Checks that user does not already exists.
