@@ -7,11 +7,11 @@
 module.exports = (req, res) => {
   if (req.user) {
     res.send({
-      isLoggedIn: true,
+      loggedIn: true,
       userId: req.user._id,
       username: req.user.username,
     });
   } else {
-    res.send({ isLoggedIn: false });
+    res.send({ loggedIn: false });
   }
 };

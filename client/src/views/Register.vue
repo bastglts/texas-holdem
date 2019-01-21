@@ -31,9 +31,7 @@
 </template>
 
 <script>
-import { Validator } from 'vee-validate';
-import AuthService from '../services/AuthService';
-import EventBus from '../utils/eventBus';
+import auth from '../utils/auth';
 
 export default {
   name: 'Register',
@@ -48,45 +46,20 @@ export default {
 
   methods: {
     validateBeforeRegister() {
-      this.$validator.validateAll().then((result) => {
-        if (result) {
+      this.$validator.validateAll().then((res) => {
+        if (res) {
           this.register();
         }
       });
     },
 
     register() {
-      AuthService.register({
-        username: this.username,
-        password: this.password,
-      }).then((res) => {
-        console.log(res.data);
-        this.$router.push({ name: 'home' });
-        EventBus.$emit('login');
-      }).catch((err) => {
-        console.log(err);
-      });
+      auth.register(this);
     },
   },
 
   mounted() {
-    const isUnique = usrname => AuthService.exists({
-      username: usrname,
-    }).then((response) => {
-      const output = {
-        valid: response.data.valid,
-        data: {
-          message: response.data.message,
-        },
-      };
-      console.log('output', output);
-      return output;
-    });
-
-    Validator.extend('unique', {
-      validate: isUnique,
-      getMessage: (field, params, data) => data.message,
-    });
+    auth.unique();
   },
 };
 </script>

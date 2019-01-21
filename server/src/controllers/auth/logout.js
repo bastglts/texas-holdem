@@ -6,5 +6,5 @@
  */
 module.exports = (req, res) => {
   req.logout();
-  res.send({ isloggedIn: false });
+  res.send({ loggedIn: false });
 };
