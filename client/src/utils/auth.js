@@ -7,7 +7,7 @@ export default {
   /**
    * Listens to 'check-login' event in order to trigger an authentication backend check.
    *
-   * @param {*} ctx This keyword.
+   * @param {*} ctx This keyword (the Vue component).
    */
   checkLoginState(ctx) {
     EventBus.$on('check-login', () => {
@@ -42,18 +42,19 @@ export default {
   /**
    * Logs user out.
    *
-   * Sends a get request to the server. Sets loggedIn to false and
-   * playerName to '' in the component's data.
+   * Sends a get request to the server.
    *
-   * @param {*} ctx This keyword (the Vue component).
+   * @returns {{}} Object containing two propreties: loggedIn (boolean) and playerName (string).
    */
-  logout(ctx) {
-    AuthService.logout()
+  logout() {
+    return AuthService.logout()
       .then((response) => {
-        ctx.playerName = '';
-        ctx.loggedIn = response.data.loggedIn;
+        const output = {
+          playerName: '',
+          loggedIn: response.data.loggedIn,
+        };
 
-        ctx.$router.push({ name: 'home' });
+        return output;
       }).catch((err) => {
         console.log('logout err:', err);
       });

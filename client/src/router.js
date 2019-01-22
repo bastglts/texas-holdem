@@ -7,7 +7,9 @@ import Profile from './views/Profile.vue';
 import Register from './views/Register.vue';
 import auth from './utils/auth';
 
+
 Vue.use(Router);
+
 
 const router = new Router({
   mode: 'history',

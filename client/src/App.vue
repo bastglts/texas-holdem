@@ -28,9 +28,15 @@ export default {
   },
 
   methods: {
-    logout() {
-      auth.logout(this);
+    async logout() {
+      const { loggedIn, playerName } = await auth.logout();
+
+      this.loggedIn = loggedIn;
+      this.playerName = playerName;
+
+      this.$router.push({ name: 'home' });
     },
+
 
     async isLoggedIn() {
       const { loggedIn, playerName } = await auth.isLoggedIn();
@@ -39,6 +45,7 @@ export default {
       this.playerName = playerName;
     },
   },
+
 
   created() {
     this.isLoggedIn();
