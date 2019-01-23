@@ -46,7 +46,7 @@ export default {
 
     fetchUsername() {
       if (this.loggedIn) {
-        auth.fetchData().then((data) => {
+        auth.fetchUserData().then((data) => {
           this.playerName = data.username;
         });
       } else {

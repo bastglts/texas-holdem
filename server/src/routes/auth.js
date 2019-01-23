@@ -26,7 +26,7 @@ router.get('/isloggedin', handlers.isLoggedIn);
 router.get('/logout', handlers.logout);
 
 // Fetch Data
-router.get('/fetchdata', handlers.fetchData);
+router.get('/fetchuserdata', handlers.fetchUserData);
 
 
 /* ----------------- Export router ------------------ */

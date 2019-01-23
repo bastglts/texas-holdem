@@ -8,8 +8,8 @@ export default {
    *
    * @returns {Promise} Promise that resolves to the data.
    */
-  fetchData() {
-    return AuthService.fetchData()
+  fetchUserData() {
+    return AuthService.fetchUserData()
       .then(response => response.data)
       .catch(err => console.log('isLoggedIn err:', err));
   },

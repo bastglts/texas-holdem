@@ -26,7 +26,7 @@ export default {
     return Api().get('logout');
   },
 
-  fetchData() {
-    return Api().get('fetchdata');
+  fetchUserData() {
+    return Api().get('fetchuserdata');
   },
 };
