@@ -25,4 +25,8 @@ export default {
   logout() {
     return Api().get('logout');
   },
+
+  fetchData() {
+    return Api().get('fetchdata');
+  },
 };

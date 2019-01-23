@@ -57,9 +57,7 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     auth.isLoggedIn().then((result) => {
-      const { loggedIn } = result;
-
-      if (!loggedIn) {
+      if (!result) {
         next({
           path: '/login',
         });

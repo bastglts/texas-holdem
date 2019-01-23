@@ -25,7 +25,8 @@ module.exports = (req, res, next) => {
     // Once registration is completed, immediately log in the user
     passport.authenticate('local')(req, res, () => {
       res.send({
-        isloggedIn: true,
+        registered: true,
+        loggedIn: true,
       });
     });
   });

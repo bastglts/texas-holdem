@@ -25,6 +25,9 @@ router.get('/isloggedin', handlers.isLoggedIn);
 // Logout
 router.get('/logout', handlers.logout);
 
+// Fetch Data
+router.get('/fetchdata', handlers.fetchData);
+
 
 /* ----------------- Export router ------------------ */
 module.exports = router;

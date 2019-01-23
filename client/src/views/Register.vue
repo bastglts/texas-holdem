@@ -36,6 +36,7 @@ import auth from '../utils/auth';
 export default {
   name: 'Register',
 
+
   data() {
     return {
       username: '',
@@ -44,19 +45,31 @@ export default {
     };
   },
 
+
   methods: {
     validateBeforeRegister() {
-      this.$validator.validateAll().then((res) => {
-        if (res) {
+      this.$validator.validateAll().then((result) => {
+        if (result) {
           this.register();
         }
       });
     },
 
     register() {
-      auth.register(this);
+      auth.register(this.username, this.password)
+        .then(() => {
+          this.$router.push({ name: 'tables' });
+        }).catch(() => {
+          this.errors.add({
+            field: 'password',
+            msg: 'Error during register, please try again later',
+          });
+
+          this.errors.first('password');
+        });
     },
   },
+
 
   mounted() {
     auth.unique();

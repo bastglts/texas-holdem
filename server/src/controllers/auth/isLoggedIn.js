@@ -2,15 +2,11 @@
 
 
 /**
- * Check if user is logged in, sens a JSON response.
+ * Checks if user is logged in, sends a JSON response.
  */
 module.exports = (req, res) => {
   if (req.user) {
-    res.send({
-      loggedIn: true,
-      userId: req.user._id,
-      username: req.user.username,
-    });
+    res.send({ loggedIn: true });
   } else {
     res.send({ loggedIn: false });
   }

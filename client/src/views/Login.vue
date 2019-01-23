@@ -1,6 +1,7 @@
 <template>
   <div class="login">
     <h4>Please Login here:</h4>
+
     <form @submit.prevent="validateBeforeLogin">
       <div>
         <label>Username</label>
@@ -18,6 +19,8 @@
 
       <button type="submit">Login</button>
     </form>
+
+    <p>Or register <router-link to="/register" >there</router-link>.</p>
   </div>
 </template>
 
@@ -44,7 +47,19 @@ export default {
     },
 
     login() {
-      auth.login(this);
+      auth.login(this.username, this.password)
+        .then(() => {
+          this.$router.push({ name: 'tables' });
+        }).catch((err) => {
+          this.errors.add({
+            field: 'password',
+            msg: (err.response.status === 401)
+              ? `Either ${this.username} does not exist or you entered a wrong password`
+              : 'Error during login, please try again later',
+          });
+
+          this.errors.first('password');
+        });
     },
   },
 };

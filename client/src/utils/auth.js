@@ -1,18 +1,17 @@
 import { Validator } from 'vee-validate';
 import AuthService from '../services/AuthService';
-import EventBus from './eventBus';
 
 
 export default {
   /**
-   * Listens to 'check-login' event in order to trigger an authentication backend check.
+   * Fetches user data.
    *
-   * @param {*} ctx This keyword (the Vue component).
+   * @returns {Promise} Promise that resolves to the data.
    */
-  checkLoginState(ctx) {
-    EventBus.$on('check-login', () => {
-      ctx.isLoggedIn();
-    });
+  fetchData() {
+    return AuthService.fetchData()
+      .then(response => response.data)
+      .catch(err => console.log('isLoggedIn err:', err));
   },
 
 
@@ -21,21 +20,12 @@ export default {
    *
    * Sends a get request to the server.
    *
-   * @returns {{}} Object containing two propreties: loggedIn (boolean) and playerName (string).
+   * @returns {Promise} Promise that resolves to a boolean.
    */
   isLoggedIn() {
     return AuthService.isLoggedIn()
-      .then((response) => {
-        const output = {
-          loggedIn: response.data.loggedIn,
-          playerName: (response.data.username || ''),
-        };
-
-        console.log('isLoggedIn:', output);
-        return output;
-      }).catch((err) => {
-        console.log('isLoggedIn err:', err);
-      });
+      .then(response => response.data.loggedIn)
+      .catch(err => console.log('isLoggedIn err:', err));
   },
 
 
@@ -44,55 +34,29 @@ export default {
    *
    * Sends a get request to the server.
    *
-   * @returns {{}} Object containing two propreties: loggedIn (boolean) and playerName (string).
+   * @returns {Promise} Promise that resolves to a boolean (true if logout was successful).
    */
   logout() {
     return AuthService.logout()
-      .then((response) => {
-        const output = {
-          playerName: '',
-          loggedIn: response.data.loggedIn,
-        };
-
-        return output;
-      }).catch((err) => {
-        console.log('logout err:', err);
-      });
+      .then(response => response.data.success)
+      .catch(err => console.log('logout err:', err));
   },
 
 
   /**
    * Logs user in.
    *
-   * Sends a post request to server. Redirects to home page after success,
-   * else adds errors to Vee-Validate.
+   * Sends a post request to server.
    *
-   * @param {*} ctx This keyword (the Vue component).
+   * @param {String} usr Username.
+   * @param {String} pwd Password.
+   *
+   * @returns Axios Promise.
    */
-  login(ctx) {
-    AuthService.login({
-      username: ctx.username,
-      password: ctx.password,
-    }).then(() => {
-      EventBus.$emit('check-login');
-
-      ctx.$router.push({ name: 'tables' });
-    }).catch((err) => {
-      if (err.response.status === 401) {
-        ctx.errors.add({
-          field: 'password',
-          msg: `Either ${ctx.username} does not exist or you entered a wrong password`,
-        });
-
-        ctx.errors.first('password');
-      } else {
-        ctx.errors.add({
-          field: 'password',
-          msg: 'Error during login, please try again later',
-        });
-
-        ctx.errors.first('password');
-      }
+  login(usr, pwd) {
+    return AuthService.login({
+      username: usr,
+      password: pwd,
     });
   },
 
@@ -100,28 +64,17 @@ export default {
   /**
    * Registers user.
    *
-   * Sends a post request to the server. Redirects to home page after success,
-   * else adds errors to Vee-Validate.
+   * Sends a post request to the server.
    *
-   * @param {*} ctx This keyword (the Vue component).
+   * @param {String} usr Username.
+   * @param {String} pwd Password.
+   *
+   * @returns Axios Promise.
    */
-  register(ctx) {
-    AuthService.register({
-      username: ctx.username,
-      password: ctx.password,
-    }).then(() => {
-      EventBus.$emit('check-login');
-
-      ctx.$router.push({ name: 'tables' });
-    }).catch((err) => {
-      console.log('register err:', err);
-
-      ctx.errors.add({
-        field: 'password',
-        msg: 'Error during register, please try again later',
-      });
-
-      ctx.errors.first('password');
+  register(usr, pwd) {
+    return AuthService.register({
+      username: usr,
+      password: pwd,
     });
   },
 
@@ -129,7 +82,7 @@ export default {
   /**
    * Checks that user does not already exists.
    *
-   * Custom Vee-Validate rule to performe async backend validation of the input.
+   * Custom Vee-Validate rule that performs async backend validation of the input.
    */
   unique() {
     const isUnique = usr => AuthService.exists({ username: usr })

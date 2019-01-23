@@ -13,7 +13,6 @@
     </form>
     <poker-table/>
   </div>
-
 </template>
 
 <script>
@@ -27,8 +26,6 @@ export default {
     ChatPanel,
     PokerTable,
   },
-
-  props: ['user'],
 
   data() {
     return {

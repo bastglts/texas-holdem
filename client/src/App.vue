@@ -4,7 +4,6 @@
       <router-link v-if="loggedIn" to="/profile" >{{ playerName }}</router-link>
       <router-link v-else to="/login" >Login</router-link>
       <a v-if="loggedIn" @click="logout" > | Logout</a>
-      <a @click="isLoggedIn" > | login test</a>
     </div>
     <h1>Online Texas Hold'em Poker</h1>
     <div id="nav">
@@ -28,28 +27,47 @@ export default {
   },
 
   methods: {
-    async logout() {
-      const { loggedIn, playerName } = await auth.logout();
+    logout() {
+      auth.logout().then((result) => {
+        if (result) {
+          this.loggedIn = false;
 
-      this.loggedIn = loggedIn;
-      this.playerName = playerName;
-
-      this.$router.push({ name: 'home' });
+          this.$router.push({ name: 'home' });
+        }
+      });
     },
 
-
-    async isLoggedIn() {
-      const { loggedIn, playerName } = await auth.isLoggedIn();
-
-      this.loggedIn = loggedIn;
-      this.playerName = playerName;
+    isLoggedIn() {
+      auth.isLoggedIn().then((result) => {
+        this.loggedIn = result;
+        console.log('isloggedin:', result);
+      });
     },
+
+    fetchUsername() {
+      if (this.loggedIn) {
+        auth.fetchData().then((data) => {
+          this.playerName = data.username;
+        });
+      } else {
+        this.playerName = '';
+      }
+    },
+  },
+
+
+  watch: {
+    // Call isLoggedIn again if the route changes
+    $route: 'isLoggedIn',
+
+    // Fetch (or empty) player name only when login status change.
+    loggedIn: 'fetchUsername',
   },
 
 
   created() {
     this.isLoggedIn();
-    auth.checkLoginState(this);
+    this.fetchUsername();
   },
 };
 </script>
