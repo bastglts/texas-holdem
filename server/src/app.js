@@ -12,6 +12,7 @@ const socketIo = require('socket.io');
 const authRoutes = require('./routes/auth');
 const User = require('./models/user');
 const dbConfig = require('./config/db');
+const socketListeners = require('./socket/listeners');
 
 
 /* -------------- Create express app -------------- */
@@ -61,15 +62,7 @@ const server = app.listen(8081, () => {
 const io = socketIo(server);
 
 io.on('connection', (socket) => {
-  console.log('connection', socket.id);
-
-  socket.on('send_msg', (data) => {
-    io.emit('msg', data);
-  });
-
-  socket.on('join_table', (data) => {
-    io.emit('msg', { msg: `${data.user} has joined the table` });
-  });
+  socketListeners(socket, io);
 });
 
 
