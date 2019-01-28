@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Home from './views/Home.vue';
 import Tables from './views/Tables.vue';
+import Table from './views/Table.vue';
 import Login from './views/Login.vue';
 import Profile from './views/Profile.vue';
 import Register from './views/Register.vue';
@@ -24,6 +25,12 @@ const router = new Router({
       path: '/tables',
       name: 'tables',
       component: Tables,
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/table',
+      name: 'table',
+      component: Table,
       meta: { requiresAuth: true },
     },
     {

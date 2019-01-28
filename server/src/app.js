@@ -61,10 +61,14 @@ const server = app.listen(8081, () => {
 const io = socketIo(server);
 
 io.on('connection', (socket) => {
-  console.log(socket.id);
-  socket.on('SEND_MSG', (data) => {
-    io.emit('MSG', data);
-    console.log(data);
+  console.log('connection', socket.id);
+
+  socket.on('send_msg', (data) => {
+    io.emit('msg', data);
+  });
+
+  socket.on('join_table', (data) => {
+    io.emit('msg', { msg: `${data.user} has joined the table` });
   });
 });
 

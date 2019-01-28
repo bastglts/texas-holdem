@@ -68,3 +68,31 @@ button {
 .warning {
   color: red;
 }
+
+.poker-table {
+  background-image: url(../assets/table.svg);
+  background-size: 100% 100%;
+  width: 80%;
+}
+
+.chat-panel {
+  width: 20%;
+  height: 100%;
+  text-align: left;
+  border-left: 2px solid #2c3e50;
+}
+
+.chat-panel input {
+  height: 5%;
+  border-bottom: 2px solid #2c3e50;
+}
+
+.msg-list {
+  overflow-y: auto;
+  height: 95%;
+}
+
+.table {
+  display: flex;
+  border: 5px solid #2c3e50;
+}
