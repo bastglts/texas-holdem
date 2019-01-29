@@ -1,6 +1,14 @@
 <template>
   <div class="table" ref="table" :style="{height: tableHeight + 'px'}">
-    <poker-table/>
+    <div class="table-panel">
+      <div class="poker-table" ref="pokertable"></div>
+      <div class="btm-table-panel">
+        <button class="table-panel-btn">Fold</button>
+        <button class="table-panel-btn">Check</button>
+        <button class="table-panel-btn">Raise</button>
+      </div>
+    </div>
+
     <chat-panel :user="user.username" :socket="socket"/>
   </div>
 </template>
@@ -8,7 +16,6 @@
 <script>
 import io from 'socket.io-client';
 import ChatPanel from '../components/ChatPanel.vue';
-import PokerTable from '../components/PokerTable.vue';
 import auth from '../utils/auth';
 
 
@@ -17,7 +24,6 @@ export default {
 
   components: {
     ChatPanel,
-    PokerTable,
   },
 
   data() {
@@ -59,6 +65,8 @@ export default {
 
   beforeDestroy() {
     window.removeEventListener('resize', this.setTableHeight);
+
+    this.socket.emit('leave_table', { user: this.user.username });
   },
 };
 </script>

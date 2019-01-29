@@ -15,4 +15,9 @@ module.exports = (socket, io) => {
   socket.on('join_table', (data) => {
     io.emit('msg', { msg: `${data.user} has joined the table` });
   });
+
+  // Emit a message when player leaves the table
+  socket.on('leave_table', (data) => {
+    io.emit('msg', { msg: `${data.user} has left the table` });
+  });
 };
