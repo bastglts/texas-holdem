@@ -1,7 +1,14 @@
 <template>
   <div class="table" ref="table" :style="{height: tableHeight + 'px'}">
     <div class="table-panel">
-      <div class="poker-table" ref="pokertable"></div>
+      <div class="poker-table" ref="pokertable">
+        <div>Pot</div>
+        <img id="flop1" src="../assets/cards/8S.svg" alt="8S">
+        <img id="flop2" src="../assets/cards/8D.svg" alt="8D">
+        <img id="flop3" src="../assets/cards/AS.svg" alt="AS">
+        <img id="turn" src="../assets/cards/KH.svg" alt="KH">
+        <img id="river" src="../assets/cards/JC.svg" alt="JC">
+      </div>
       <div class="btm-table-panel">
         <button class="table-panel-btn">Fold</button>
         <button class="table-panel-btn">Check</button>
