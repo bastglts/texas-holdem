@@ -10,6 +10,7 @@ const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
   username: String,
+  count: Number,
 });
 
 UserSchema.plugin(passportLocalMongoose);
