@@ -8,6 +8,10 @@
 
 body {
   background-color: #f8fff4;
+  background-image: url(../assets/bg.svg);
+  background-attachment: fixed;
+  background-size: cover;
+  /* background by SVGBackgrounds.com */
 }
 
 #nav {
@@ -51,10 +55,9 @@ input {
   padding: 2%;
   margin: 1%;
   outline: none;
-  font-size: 80%;
   text-align: center;
   width: 100%;
-  background-color: #f8fff4;
+  background-color: #f8fff400;
   box-sizing: border-box;
   border-width: 1%;
   border-style: solid;
@@ -62,7 +65,7 @@ input {
 }
 
 button {
-  background: #cf5c36;
+  background: #050517;
   color: #f8fff4;
   padding: 2%;
   margin: 1%;
@@ -71,14 +74,19 @@ button {
   justify-content: center; 
   font-weight: bold;
   width: 100%;
-  border: #cf5c36;
   cursor: pointer;
+  border-color: #050517;
 }
 
 .table-panel-btn {
   padding: 0px;
   width: 20%;
   height: 40%;
+  font-size: 1.2vw;
+  box-sizing: border-box;
+  border-width: 1%;
+  border-style: solid;
+  border-color: #cf5c36;
 }
 
 .warning {
@@ -89,19 +97,22 @@ button {
   position: relative;
   background-image: url(../assets/table.svg);
   background-size: 100% 100%;
-  height: 80%;
+  height: 85%;
+  font-weight: bold;
 }
 
 .btm-table-panel {
   display: flex;
-  background-color: #050517de;
-  height: 20%;
+  background-color: #050517bd;
+  box-shadow: 0px -5px 3px 2px #050517bd;
+  height: 15%;
   justify-content: center;
 }
 
 .table-panel {
   flex-direction: column;
   width: 75%;
+  font-size: 1.1vw;
 }
 
 .chat-panel {
@@ -111,14 +122,14 @@ button {
   border-left-width: 10%;
   border-left-style: solid;
   border-left-color: #050517;
-  font-size: 90%;
+  font-size: 1.3vw;
 }
 
 .chat-panel input {
   margin: 0%;
   height: 5%;
-  font-size: 90%;
   border: #f8fff4;
+  font-size: 1.3vw;
 }
 
 .msg-list {
@@ -131,49 +142,130 @@ button {
 
 .table {
   display: flex;
+  margin: auto;
   border-width: 10%;
   border-style: solid;
   border-color: #050517;
-  min-width: 600px;
-  min-height: 260px;
+}
+
+.table-card {
+  position: absolute;
+  top: 39.5%;
+  width: 8%;
 }
 
 #flop1 {
-  position: absolute;
-  top: 43%;
-  left: 33.5%;
-  width: 6%;
-  height: 14%;
+  left: 29%;
 }
 
 #flop2 {
-  position: absolute;
-  top: 43%;
-  left: 40.5%;
-  width: 6%;
-  height: 14%;
+  left: 37.5%;
 }
 
 #flop3 {
-  position: absolute;
-  top: 43%;
-  left: 47.5%;
-  width: 6%;
-  height: 14%;
+  left: 46%;
 }
 
 #turn {
-  position: absolute;
-  top: 43%;
   left: 54.5%;
-  width: 6%;
-  height: 14%;
 }
 
 #river {
+  left: 63%;
+}
+
+#pot-count {
   position: absolute;
-  top: 43%;
-  left: 61.5%;
-  width: 6%;
-  height: 14%;
+  top: 36%;
+  left: 50%;
+  color: #d6ac68;
+}
+
+#pot-count div {
+  position: relative;
+  left: -50%;
+}
+
+#hand {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  color: #d6ac68;
+}
+
+#hand div {
+  position: relative;
+  left: -50%;
+}
+
+.player {
+  position: absolute;
+  width: 20%;
+  height: 8%;
+  background-image: linear-gradient(to right, #ffffff00 10%, #050517, #ffffff00 90%) ;
+  border-bottom-style: solid;
+  border-bottom-width: 0.1px;
+  border-top-style: solid;
+  border-top-width: 0px;
+  border-image-source: linear-gradient(to left, #cf5c3600, #cf5c36, #cf5c3600);
+  border-image-slice: 1 0;
+  border-image-width: 4%;
+  color: #e9dad5;
+  display: flex;
+  flex-direction: column;
+}
+
+.crop {
+  position: absolute;
+  bottom: 100%;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.crop img {
+  position: absolute;
+  height: 230%;
+}
+
+#hc1 {
+  left: 26.5%;
+}
+
+#hc2 {
+  left: 36.5%;
+}
+
+#player1 {
+  top: 12%;
+  left: 22%;
+}
+
+#player2 {
+  top: 12%;
+  right: 22%;
+}
+
+#player3 {
+  top: 52%;
+  right: 0%;
+}
+
+#player4 {
+  bottom: 4%;
+  right: 22%;
+}
+
+#player5 {
+  bottom: 4%;
+  left: 22%;
+}
+
+#player6 {
+  top: 52%;
+  left: 0%;
+}
+
+.poker-table p {
+  margin: auto;
 }
