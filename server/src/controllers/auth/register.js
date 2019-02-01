@@ -10,7 +10,7 @@ const User = require('../../models/user');
  */
 module.exports = (req, res, next) => {
   // The register method is a convinience from passportLocalMongoose
-  User.register(new User({ username: req.body.username }), req.body.password, (err) => {
+  User.register(new User({ username: req.body.username, count: 2000 }), req.body.password, (err) => {
     if (err) {
       console.log('error while user register!', err);
       res.send({
