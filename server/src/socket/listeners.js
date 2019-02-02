@@ -26,8 +26,8 @@ module.exports = (socket, io) => {
     table.players.push({
       username: player.username,
       count: player.count,
-      hc1: '9H',
-      hc2: '8C',
+      holeCards: ['9H', '8C'],
+      showdown: false,
     });
     console.log('add:', table);
     io.emit('update_table', table);

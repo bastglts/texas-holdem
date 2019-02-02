@@ -6,11 +6,24 @@
       <div class="poker-table" ref="pokertable">
 
 
-        <div v-for="(player, idx) in table.players" :key="idx" class="player"
+        <div v-for="(player, idx) in table.players"
+             :key="idx" class="player"
              :id="`player${idx + 1}`">
           <div class="crop">
-            <img id="hc1" :src="require(`../assets/cards/${player.hc1}.svg`)" :alt="player.hc1">
-            <img id="hc2" :src="require(`../assets/cards/${player.hc2}.svg`)" :alt="player.hc2">
+            <template v-if="(player.username === user) || player.showdown">
+              <img v-for="(card, idx) in player.holeCards"
+                   :key="idx"
+                   :id="`hc${idx + 1}`"
+                   :src="require(`../assets/cards/${card}.svg`)"
+                   :alt="card">
+            </template>
+            <template v-else>
+              <img v-for="(card, idx) in player.holeCards"
+                   :key="idx"
+                   :id="`hc${idx + 1}`"
+                   :src="require(`../assets/cards/back.svg`)"
+                   alt="back">
+            </template>
           </div>
           <p> {{ player.username }} </p>
           <p> ${{ player.count }} </p>
@@ -34,7 +47,7 @@
 
       <div class="btm-table-panel">
         <button class="table-panel-btn">Fold</button>
-        <button class="table-panel-btn" v-on:click="changeCard">Check</button>
+        <button class="table-panel-btn">Check</button>
         <button class="table-panel-btn">Raise</button>
       </div>
     </div>
@@ -68,12 +81,6 @@ export default {
 
 
   methods: {
-    changeCard() {
-      [this.table.players[0].hc1, this.table.players[0].hc2] = [this.table.players[0].hc2,
-        this.table.players[0].hc1];
-      this.table.players[0].count = 90;
-    },
-
     setTableSize() {
       const H = window.innerHeight * 2;
       const w = window.innerWidth;
