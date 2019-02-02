@@ -6,12 +6,13 @@
       <div class="poker-table" ref="pokertable">
 
 
-        <div v-for="(player, idx) in players" :key="idx" class="player" :id="`player${idx + 1}`">
+        <div v-for="(player, idx) in table.players" :key="idx" class="player"
+             :id="`player${idx + 1}`">
           <div class="crop">
             <img id="hc1" :src="require(`../assets/cards/${player.hc1}.svg`)" :alt="player.hc1">
             <img id="hc2" :src="require(`../assets/cards/${player.hc2}.svg`)" :alt="player.hc2">
           </div>
-          <p> {{ player.name }} </p>
+          <p> {{ player.username }} </p>
           <p> ${{ player.count }} </p>
         </div>
 
@@ -38,7 +39,7 @@
       </div>
     </div>
 
-    <chat-panel :user="user.username" :socket="socket"/>
+    <chat-panel :user="user" :socket="socket"/>
   </div>
 </template>
 
@@ -57,19 +58,10 @@ export default {
 
   data() {
     return {
-      tableName: '',
       tableWidth: 0,
       tableHeight: 0,
       user: {},
-      players: [
-        {
-          name: 'Wiwi',
-          hc1: 'QH',
-          hc2: 'KS',
-          count: 1520,
-        },
-      ],
-
+      table: {},
       socket: io('localhost:8081'),
     };
   },
@@ -77,7 +69,9 @@ export default {
 
   methods: {
     changeCard() {
-      [this.players[0].hc1, this.players[0].hc2] = [this.players[0].hc2, this.players[0].hc1];
+      [this.table.players[0].hc1, this.table.players[0].hc2] = [this.table.players[0].hc2,
+        this.table.players[0].hc1];
+      this.table.players[0].count = 90;
     },
 
     setTableSize() {
@@ -90,15 +84,15 @@ export default {
     },
 
     fetchUserData() {
-      auth.fetchUserData().then((data) => {
-        this.user = data;
+      auth.fetchUserData().then((player) => {
+        this.user = player.username;
 
-        this.socket.emit('join_table', { user: this.user.username });
+        this.socket.emit('join_table', player);
       });
     },
 
     playerLeaveTable() {
-      this.socket.emit('leave_table', { user: this.user.username });
+      this.socket.emit('leave_table', this.user);
     },
   },
 
@@ -109,6 +103,10 @@ export default {
 
     this.setTableSize();
     this.fetchUserData();
+
+    this.socket.on('update_table', (table) => {
+      this.table = table;
+    });
   },
 
 
@@ -118,7 +116,7 @@ export default {
 
 
   beforeDestroy() {
-    this.socket.emit('leave_table', { user: this.user.username });
+    this.playerLeaveTable();
 
     window.removeEventListener('resize', this.setTableSize);
     window.removeEventListener('beforeunload', this.playerLeaveTable);
