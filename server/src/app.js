@@ -25,7 +25,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors({
   origin: 'http://localhost:8080',
-  // origin: 'https://1b32cbc1.ngrok.io',
   credentials: true,
 }));
 
@@ -53,29 +52,28 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-/* ------- Create server and listen to port ------- */
-const server = app.listen(8081, () => {
-  console.log('server running on port 8081');
-});
-
-
-/* ---------- Create socket.io instance ----------- */
-const io = socketIo(server);
-
-io.on('connection', (socket) => {
-  socketListeners(socket, io);
-});
+/* ----------------- Set up routes ---------------- */
+app.use('/auth', authRoutes);
 
 
 /* ------- Configure and connect to database ------ */
 mongoose.connect(dbConfig.url, { useNewUrlParser: true })
   .then(() => {
     console.log('Successfully connected to the database');
+
+    /* ------- Create server and listen to port ------- */
+    const server = app.listen(8081, () => {
+      console.log('server running on port 8081');
+    });
+
+
+    /* ---------- Create socket.io instance ----------- */
+    const io = socketIo(server);
+
+    io.on('connection', (socket) => {
+      socketListeners(socket, io);
+    });
   }).catch(err => {
     console.log('Could not connect to the database. Exiting now...', err);
     process.exit();
   });
-
-
-/* ----------------- Set up routes ---------------- */
-app.use('/auth', authRoutes);
