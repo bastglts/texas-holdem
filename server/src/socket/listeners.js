@@ -30,6 +30,7 @@ module.exports = (socket, io) => {
       showdown: false,
     });
     console.log('add:', table);
+
     io.emit('update_table', table);
     io.emit('msg', { msg: `${player.username} has joined the table` });
   });

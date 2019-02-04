@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 const Api = () => axios.create({
+  // baseURL: 'http://bast.localhost.run/auth',
   baseURL: 'http://localhost:8081/auth',
   withCredentials: true,
 });

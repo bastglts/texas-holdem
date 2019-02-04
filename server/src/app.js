@@ -25,6 +25,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors({
   origin: 'http://localhost:8080',
+  // origin: 'https://1b32cbc1.ngrok.io',
   credentials: true,
 }));
 

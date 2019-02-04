@@ -1,0 +1,22 @@
+{
+  "name": "texas-holdem",
+  "version": "1.0.0",
+  "description": "online poker game",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bastglts/texas-holdem.git"
+  },
+  "author": "Bastien Gili-tos",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bastglts/texas-holdem/issues"
+  },
+  "homepage": "https://github.com/bastglts/texas-holdem#readme",
+  "dependencies": {
+    "jest": "^24.0.0"
+  }
+}

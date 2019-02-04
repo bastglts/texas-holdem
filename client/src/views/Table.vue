@@ -4,8 +4,6 @@
        :style="{height: tableHeight + 'px', width: tableWidth + 'px' }">
     <div class="table-panel">
       <div class="poker-table" ref="pokertable">
-
-
         <div v-for="(player, idx) in table.players"
              :key="idx" class="player"
              :id="`player${idx + 1}`">
