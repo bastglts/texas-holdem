@@ -35,8 +35,8 @@ app.use(cookieSession({
   keys: ['onetwoonetwothisisatest'],
 }));
 
-// Update a value in the cookie when receiving a request every hour top so that the set-cookie
-// header will be sent, thus extending the session expiration.
+// Update a value in the cookie when receiving a request every hour top so that
+// the set-cookieheader will be sent, thus extending the session expiration.
 app.use(function (req, res, next) {
   req.session.nowInhours = Math.floor(Date.now() / 3600e3);
   next();
@@ -56,18 +56,18 @@ app.use(passport.session());
 app.use('/auth', authRoutes);
 
 
-/* ------- Configure and connect to database ------ */
+/* ----- Connect to database and create server ---- */
 mongoose.connect(dbConfig.url, { useNewUrlParser: true })
   .then(() => {
     console.log('Successfully connected to the database');
 
-    /* ------- Create server and listen to port ------- */
+    // Create server and listen to port
     const server = app.listen(8081, () => {
       console.log('server running on port 8081');
     });
 
 
-    /* ---------- Create socket.io instance ----------- */
+    // Create socket.io instance
     const io = socketIo(server);
 
     io.on('connection', (socket) => {
