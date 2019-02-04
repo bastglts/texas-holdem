@@ -4,7 +4,9 @@
   "description": "online poker game",
   "main": "index.js",
   "scripts": {
-    "test": "jest --coverage"
+    "start": "concurrently \"npm run client\" \"npm run server\"",
+    "client": "cd client && npm run serve",
+    "server": "cd server && npm start"
   },
   "repository": {
     "type": "git",
@@ -16,7 +18,8 @@
     "url": "https://github.com/bastglts/texas-holdem/issues"
   },
   "homepage": "https://github.com/bastglts/texas-holdem#readme",
-  "dependencies": {
-    "jest": "^24.0.0"
+  "dependencies": {},
+  "devDependencies": {
+    "concurrently": "^4.1.0"
   }
 }
