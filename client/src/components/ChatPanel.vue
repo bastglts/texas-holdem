@@ -44,3 +44,30 @@ export default {
   },
 };
 </script>
+
+<style>
+.chat-panel {
+  width: 25%;
+  height: 100%;
+  text-align: left;
+  border-left-width: 10%;
+  border-left-style: solid;
+  border-left-color: #050517;
+  font-size: 1.3vw;
+}
+
+.chat-panel input {
+  margin: 0%;
+  height: 5%;
+  border: #f8fff4;
+  font-size: 1.3vw;
+}
+
+.msg-list {
+  overflow-y: auto;
+  height: 95%;
+  border-top-width: 10%;
+  border-top-style: solid;
+  border-top-color: #050517;
+}
+</style>

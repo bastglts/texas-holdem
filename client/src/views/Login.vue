@@ -64,3 +64,41 @@ export default {
   },
 };
 </script>
+
+<style>
+form {
+  width: 40%;
+  margin: auto;
+}
+
+input {
+  padding: 2%;
+  margin: 1%;
+  outline: none;
+  text-align: center;
+  width: 100%;
+  background-color: #f8fff400;
+  box-sizing: border-box;
+  border-width: 1%;
+  border-style: solid;
+  border-color: #050517;
+}
+
+button {
+  background: #050517;
+  color: #f8fff4;
+  padding: 2%;
+  margin: 1%;
+  text-transform: uppercase;
+  text-align: center;
+  justify-content: center;
+  font-weight: bold;
+  width: 100%;
+  cursor: pointer;
+  border-color: #050517;
+}
+
+.warning {
+  color: #cf5c36;
+}
+</style>

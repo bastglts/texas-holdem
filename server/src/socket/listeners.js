@@ -3,6 +3,8 @@
 const table = {
   name: '',
   players: [],
+  board: ['3S', '8C', 'AH', 'AS', 'QD'],
+  pot: 3500,
 };
 
 /**
@@ -10,7 +12,6 @@ const table = {
  */
 module.exports = (socket, io) => {
   console.log('connection', socket.id);
-
   console.log('table:', table);
 
 
@@ -27,6 +28,7 @@ module.exports = (socket, io) => {
       username: player.username,
       count: player.count,
       holeCards: ['9H', '8C'],
+      hand: 'pair',
       showdown: false,
     });
     console.log('add:', table);

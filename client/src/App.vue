@@ -75,5 +75,51 @@ export default {
 
 
 <style>
-@import './css/style.css';
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #050517;
+}
+
+body {
+  background-color: #f8fff4;
+  background-image: url(./assets/bg.svg);
+  background-attachment: fixed;
+  background-size: cover;
+  /* background by SVGBackgrounds.com */
+}
+
+#nav {
+  padding: 2%;
+}
+
+a {
+  font-weight: bold;
+  color: #050517;
+  text-decoration: none;
+}
+
+a.router-link-exact-active {
+  color: #cf5c36;
+}
+
+.top-menu {
+  text-align: right;
+  background: #050517;
+  color: #f8fff4;
+  padding: 1%;
+}
+
+.top-menu a {
+  font-weight: bold;
+  color: #f8fff4;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.top-menu a.router-link-exact-active {
+  color: #cf5c36;
+}
 </style>
