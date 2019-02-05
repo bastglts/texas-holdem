@@ -2,7 +2,7 @@
 
 /* ------------------ Dependencies ------------------ */
 const express = require('express');
-const handlers = require('../controllers/auth');
+const handlers = require('../controllers/auth/index');
 
 
 /* ----------------- Create router ------------------ */
@@ -13,20 +13,11 @@ const router = express.Router();
 // Register a new user
 router.post('/register', handlers.register);
 
-// Find out if user already exists
-router.post('/exists', handlers.exists);
-
 // Login
 router.post('/login', handlers.login);
 
-// Check if user is logged in
-router.get('/isloggedin', handlers.isLoggedIn);
-
 // Logout
 router.get('/logout', handlers.logout);
-
-// Fetch Data
-router.get('/fetchuserdata', handlers.fetchUserData);
 
 
 /* ----------------- Export router ------------------ */

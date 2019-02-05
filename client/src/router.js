@@ -6,7 +6,7 @@ import Table from './views/Table.vue';
 import Login from './views/Login.vue';
 import Profile from './views/Profile.vue';
 import Register from './views/Register.vue';
-import auth from './utils/auth';
+import UserService from './services/UserService';
 
 
 Vue.use(Router);
@@ -63,7 +63,7 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    auth.isLoggedIn().then((result) => {
+    UserService.isLoggedIn().then((result) => {
       if (!result) {
         next({
           path: '/login',

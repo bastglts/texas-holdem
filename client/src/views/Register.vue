@@ -31,7 +31,9 @@
 </template>
 
 <script>
-import auth from '../utils/auth';
+import AuthService from '../services/AuthService';
+import UserService from '../services/UserService';
+
 
 export default {
   name: 'Register',
@@ -56,7 +58,7 @@ export default {
     },
 
     register() {
-      auth.register(this.username, this.password)
+      AuthService.register(this.username, this.password)
         .then(() => {
           this.$router.push({ name: 'tables' });
         }).catch(() => {
@@ -72,7 +74,7 @@ export default {
 
 
   mounted() {
-    auth.unique();
+    UserService.isUnique();
   },
 };
 </script>

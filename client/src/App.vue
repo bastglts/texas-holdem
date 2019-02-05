@@ -16,7 +16,8 @@
 </template>
 
 <script>
-import auth from './utils/auth';
+import AuthService from './services/AuthService';
+import UserService from './services/UserService';
 
 export default {
   data() {
@@ -28,7 +29,7 @@ export default {
 
   methods: {
     logout() {
-      auth.logout().then((result) => {
+      AuthService.logout().then((result) => {
         if (result) {
           this.loggedIn = false;
 
@@ -38,7 +39,7 @@ export default {
     },
 
     isLoggedIn() {
-      auth.isLoggedIn().then((result) => {
+      UserService.isLoggedIn().then((result) => {
         this.loggedIn = result;
         console.log('isloggedin:', result);
       });
@@ -46,7 +47,7 @@ export default {
 
     fetchUsername() {
       if (this.loggedIn) {
-        auth.fetchUserData().then((data) => {
+        UserService.fetchUserData().then((data) => {
           this.playerName = data.username;
         });
       } else {

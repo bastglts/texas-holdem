@@ -10,6 +10,7 @@ const cookieSession = require('cookie-session');
 const socketIo = require('socket.io');
 
 const authRoutes = require('./routes/auth');
+const userRoutes = require('./routes/user');
 const User = require('./models/user');
 const dbConfig = require('./config/db');
 const socketListeners = require('./socket/listeners');
@@ -54,6 +55,7 @@ app.use(passport.session());
 
 /* ----------------- Set up routes ---------------- */
 app.use('/auth', authRoutes);
+app.use('/user', userRoutes);
 
 
 /* ----- Connect to database and create server ---- */

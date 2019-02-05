@@ -5,7 +5,7 @@ const User = require('../../models/user');
 
 
 /**
- * Find out if a user exists or not. Sends back a Vee-Validate formated response.
+ * Finds out if a user exists or not. Sends back a JSON boolean.
  */
 module.exports = (req, res) => {
   User.findOne({ username: req.body.username }, (err, user) => {
@@ -17,12 +17,10 @@ module.exports = (req, res) => {
     if (user) {
       res.send({
         valid: false,
-        message: 'user already exists',
       });
     } else {
       res.send({
         valid: true,
-        message: 'user does not exist',
       });
     }
   });

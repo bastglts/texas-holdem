@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import auth from '../utils/auth';
+import UserService from '../services/UserService';
 
 
 export default {
@@ -20,7 +20,7 @@ export default {
 
   methods: {
     fetchUserData() {
-      auth.fetchUserData().then((data) => {
+      UserService.fetchUserData().then((data) => {
         this.user = data;
       });
     },

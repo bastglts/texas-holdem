@@ -57,7 +57,7 @@
 <script>
 import io from 'socket.io-client';
 import ChatPanel from '../components/ChatPanel.vue';
-import auth from '../utils/auth';
+import UserService from '../services/UserService';
 
 
 export default {
@@ -89,7 +89,7 @@ export default {
     },
 
     fetchUserData() {
-      auth.fetchUserData().then((player) => {
+      UserService.fetchUserData().then((player) => {
         this.user = player.username;
 
         this.socket.emit('join_table', player);
