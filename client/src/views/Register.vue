@@ -4,7 +4,7 @@
     <form @submit.prevent="validateBeforeRegister">
       <div>
         <label>Username</label>
-        <input v-validate="'required|unique'" type="text" name="username"
+        <input v-validate="'required|unique'" data-vv-delay="600" type="text" name="username"
           v-model="username" placeholder="username">
         <span v-show="errors.has('username')" class="warning">{{ errors.first('username') }}</span>
       </div>
@@ -33,7 +33,6 @@
 <script>
 import AuthService from '../services/AuthService';
 import UserService from '../services/UserService';
-
 
 export default {
   name: 'Register',
