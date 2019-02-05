@@ -31,9 +31,12 @@ app.use(cors({
 
 
 /* --------------- Configure cookies -------------- */
+require('dotenv').config();
+const { COOKIE_KEY } = process.env;
+
 app.use(cookieSession({
   maxAge: 2 * 3600 * 1000,
-  keys: ['onetwoonetwothisisatest'],
+  keys: [COOKIE_KEY],
 }));
 
 // Update a value in the cookie when receiving a request every hour top so that
