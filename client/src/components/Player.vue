@@ -8,7 +8,8 @@
             :card="card"/>
     </div>
     <p> {{ player.username }} </p>
-    <p> ${{ player.count }} </p>
+    <p id="count"> ${{ player.count }} </p>
+    <p id="hand"> {{ player.hand }} </p>
   </div>
 </template>
 
@@ -91,5 +92,16 @@ export default {
 
 .player p {
   margin: auto;
+}
+
+#count {
+  color: #d6ac68;
+}
+
+#hand {
+  position: absolute;
+  top: 110%;
+  left: 50%;
+  transform: translate(-50%,0);
 }
 </style>

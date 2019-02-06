@@ -6,19 +6,13 @@
               :id="`player${idx}`"
               :player="player"/>
 
-      <div id="pot-count">
-        <div>Pot: ${{table.pot}}</div>
-      </div>
+      <p id="pot-count"> Pot: ${{table.pot}} </p>
 
       <card class="board-card"
             v-for="(card, idx) in table.board"
             :key="card"
             :id="`bc${idx}`"
             :card="card"/>
-
-      <div id="hand">
-        <div>Your hand: straigth flush</div>
-      </div>
     </div>
 
     <div class="btm-table-panel">
@@ -96,25 +90,9 @@ export default {
 
 #pot-count {
   position: absolute;
-  top: 36%;
+  top: 32%;
   left: 50%;
+  transform: translate(-50%,0);
   color: #d6ac68;
-}
-
-#pot-count div {
-  position: relative;
-  left: -50%;
-}
-
-#hand {
-  position: absolute;
-  top: 60%;
-  left: 50%;
-  color: #d6ac68;
-}
-
-#hand div {
-  position: relative;
-  left: -50%;
 }
 </style>
