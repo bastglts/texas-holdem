@@ -18,7 +18,9 @@
     "url": "https://github.com/bastglts/texas-holdem/issues"
   },
   "homepage": "https://github.com/bastglts/texas-holdem#readme",
-  "dependencies": {},
+  "dependencies": {
+    "ramda": "^0.26.1"
+  },
   "devDependencies": {
     "concurrently": "^4.1.0"
   }
