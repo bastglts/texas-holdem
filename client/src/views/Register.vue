@@ -9,12 +9,14 @@
         <span v-show="errors.has('username')" class="warning">{{ errors.first('username') }}</span>
       </div>
 
+
       <div>
         <label>Password</label>
         <input v-validate="'required|min:5'" type="password" name="password"
           v-model="password" placeholder="password" ref="password">
         <span v-show="errors.has('password')" class="warning">{{ errors.first('password') }}</span>
       </div>
+
 
       <div>
         <label>Password Confirmation</label>
@@ -24,6 +26,7 @@
         <span v-show="errors.has('password-check')" class="warning">
           {{ errors.first('password-check') }} </span>
       </div>
+
 
       <button type="submit">Register</button>
     </form>
