@@ -32,7 +32,7 @@
 
 <script>
 import AuthService from '../services/AuthService';
-import UserService from '../services/UserService';
+import isUnique from '../services/isUnique';
 
 export default {
   name: 'Register',
@@ -73,7 +73,7 @@ export default {
 
 
   mounted() {
-    UserService.isUnique();
+    isUnique('user');
   },
 };
 </script>
