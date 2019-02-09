@@ -13,5 +13,8 @@ const router = express.Router();
 // Find out if table already exists
 router.post('/isunique', handlers.isUnique);
 
+// Create a new table
+router.post('/createtable', handlers.createTable);
+
 /* ----------------- Export router ------------------ */
 module.exports = router;

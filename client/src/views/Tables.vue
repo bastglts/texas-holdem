@@ -30,6 +30,7 @@ export default {
   data() {
     return {
       tableName: '',
+      tables: [],
     };
   },
 
