@@ -14,6 +14,6 @@ module.exports = (req, res) => {
 
   // Save table to database
   table.save()
-    .then(() => res.send({ sucess: true }))
+    .then(() => res.send({ sucess: true, name: req.body.name }))
     .catch(err => res.send({ err: err }));
 };

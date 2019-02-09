@@ -1,7 +1,27 @@
 <template>
   <div class="tables">
     <h3>Tables list:</h3>
-    <p>There's just one table for now. <router-link to="/table">Enter here.</router-link> </p>
+
+    <transition name="fade" mode="out-in">
+      <p v-if="!tables" class="loading">Loading...</p>
+      <table v-else>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Players</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(table,idx) in tables"
+              :key="idx"
+              class="table-row"
+              @click="enterTable({name: 'table', params: { name: table.name }})">
+            <td>{{ table.name }}</td>
+            <td> {{ table.players.length }} / 6 </td>
+          </tr>
+        </tbody>
+      </table>
+    </transition>
 
     <h3>Create new table ?</h3>
     <form @submit.prevent="validateBeforeCreate">
@@ -30,7 +50,7 @@ export default {
   data() {
     return {
       tableName: '',
-      tables: [],
+      tables: undefined,
     };
   },
 
@@ -46,13 +66,43 @@ export default {
 
     createTable() {
       TableService.createTable(this.tableName)
-        .then(res => console.log(res));
+        .then(() => this.fetchTablesList());
+    },
+
+    enterTable(to) {
+      this.$router.push(to);
+    },
+
+    fetchTablesList() {
+      TableService.fetchTablesList()
+        .then((list) => {
+          this.tables = list;
+          console.log('tables', list);
+        });
     },
   },
 
 
   mounted() {
     isUnique('table');
+    this.fetchTablesList();
   },
 };
 </script>
+
+<style>
+table {
+    margin: auto;
+}
+th {
+  color: #3e3b46;
+}
+tbody {
+  cursor: pointer;
+}
+
+.loading {
+  font-size: large;
+  color: #3e3b46;
+}
+</style>
