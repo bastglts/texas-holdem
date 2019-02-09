@@ -11,7 +11,9 @@
       <router-link to="/tables">Tables</router-link> |
       <router-link to="/about">About</router-link>
     </div>
-    <router-view/>
+    <transition name="fade" mode="out-in">
+      <router-view/>
+    </transition>
   </div>
 </template>
 
@@ -121,5 +123,13 @@ a.router-link-exact-active {
 
 .top-menu a.router-link-exact-active {
   color: #cf5c36;
+}
+
+.fade-enter-active, .fade-leave-active {
+    transition: opacity .5s;
+}
+
+.fade-enter, .fade-leave-to {
+    opacity: 0;
 }
 </style>
