@@ -14,7 +14,10 @@ const router = express.Router();
 router.post('/isunique', handlers.isUnique);
 
 // Create a new table
-router.post('/createtable', handlers.createTable);
+router.post('/create', handlers.createTable);
+
+// Fetch tables list
+router.get('/fetchlist', handlers.fetchTablesList);
 
 /* ----------------- Export router ------------------ */
 module.exports = router;

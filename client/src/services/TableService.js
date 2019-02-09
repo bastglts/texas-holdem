@@ -11,8 +11,22 @@ export default {
    * @returns Axios Promise.
    */
   createTable(tableName) {
-    return Api().post('table/createtable', { name: tableName })
+    return Api().post('table/create', { name: tableName })
       .then(response => response.data)
+      .catch(err => console.log('createTable err:', err));
+  },
+
+
+  /**
+   * Fetches tables list.
+   *
+   * Sends a get request to the server.
+   *
+   * @returns Axios Promise.
+   */
+  fetchTablesList() {
+    return Api().get('table/fetchList')
+      .then(res => res.data.tablesList)
       .catch(err => console.log('createTable err:', err));
   },
 };
