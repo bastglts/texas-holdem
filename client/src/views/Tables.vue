@@ -4,7 +4,7 @@
 
     <transition name="fade" mode="out-in">
       <p v-if="!tables" class="loading">Loading...</p>
-      <table v-else>
+      <table v-else-if="tables.length > 0">
         <thead>
           <tr>
             <th>Name</th>
@@ -17,10 +17,11 @@
               class="table-row"
               @click="enterTable({name: 'table', params: { name: table.name }})">
             <td>{{ table.name }}</td>
-            <td> {{ table.players.length }} / 6 </td>
+            <td> {{ table.numPlayers }} / 6 </td>
           </tr>
         </tbody>
       </table>
+      <p v-else class="loading">There's no table... Create one :).</p>
     </transition>
 
     <h3>Create new table ?</h3>
@@ -39,6 +40,7 @@
 </template>
 
 <script>
+import io from 'socket.io-client';
 import isUnique from '../services/isUnique';
 import TableService from '../services/TableService';
 
@@ -51,6 +53,7 @@ export default {
     return {
       tableName: '',
       tables: undefined,
+      socket: io('localhost:8081'),
     };
   },
 
@@ -77,7 +80,6 @@ export default {
       TableService.fetchTablesList()
         .then((list) => {
           this.tables = list;
-          console.log('tables', list);
         });
     },
   },
@@ -86,6 +88,8 @@ export default {
   mounted() {
     isUnique('table');
     this.fetchTablesList();
+
+    this.socket.on('update_list', this.fetchTablesList);
   },
 };
 </script>
@@ -103,6 +107,5 @@ tbody {
 
 .loading {
   font-size: large;
-  color: #3e3b46;
 }
 </style>

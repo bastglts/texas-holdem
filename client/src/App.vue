@@ -43,7 +43,6 @@ export default {
     isLoggedIn() {
       UserService.isLoggedIn().then((result) => {
         this.loggedIn = result;
-        console.log('isloggedin:', result);
       });
     },
 

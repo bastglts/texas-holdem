@@ -18,7 +18,7 @@
 export default {
   name: 'ChatPanel',
 
-  props: ['user', 'socket'],
+  props: ['user', 'socket', 'tableName'],
 
   data() {
     return {
@@ -32,6 +32,7 @@ export default {
       this.socket.emit('send_msg', {
         msg: this.msg,
         user: this.user,
+        tableName: this.tableName,
       });
       this.msg = '';
     },

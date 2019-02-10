@@ -4,7 +4,7 @@
        ref="table">
 
     <table-panel :user="user" :socket="socket"/>
-    <chat-panel :user="user" :socket="socket"/>
+    <chat-panel :user="user" :socket="socket" :tableName="this.$route.params.name"/>
   </div>
 </template>
 
@@ -28,7 +28,7 @@ export default {
     return {
       tableWidth: 0,
       tableHeight: 0,
-      user: {},
+      user: '',
       socket: io('localhost:8081'),
     };
   },
@@ -44,16 +44,20 @@ export default {
       this.tableHeight = this.tableWidth * 0.5;
     },
 
-    fetchUserData() {
-      UserService.fetchUserData().then((player) => {
-        this.user = player.username;
+    setTableName() {
+      this.tableName = this.$route.params.name;
+    },
 
-        this.socket.emit('join_table', player);
+    fetchUserData() {
+      UserService.fetchUserData().then((plyr) => {
+        this.user = plyr.username;
+
+        this.socket.emit('join_table', { player: plyr, tableName: this.tableName });
       });
     },
 
     playerLeaveTable() {
-      this.socket.emit('leave_table', this.user);
+      this.socket.emit('leave_table', { username: this.user, tableName: this.tableName });
     },
   },
 
@@ -63,6 +67,7 @@ export default {
     window.addEventListener('beforeunload', this.playerLeaveTable);
 
     this.setTableSize();
+    this.setTableName();
     this.fetchUserData();
   },
 

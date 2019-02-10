@@ -25,7 +25,7 @@ const hideTable = (table, playerID) => {
       player.hand = '';
     }
   });
-
+  console.log('table', table, 'tableCopy', tableCopy);
   return tableCopy;
 };
 
