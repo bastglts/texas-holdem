@@ -1,26 +1,37 @@
 <template>
-  <div class="table-panel">
-    <div class="poker-table" ref="pokertable">
-      <player v-for="(player, idx) in table.players"
-              :key="idx"
-              :id="`player${idx}`"
-              :player="player"/>
+  <transition name="fade" mode="out-in">
+    <p v-if="!table" class="table-panel" id="lw" :key="'load123'">
+      Loading...
+    </p>
 
-      <p id="pot-count"> Pot: ${{table.pot}} </p>
+    <p v-else-if="table.players.length < 2" class="table-panel" id="lw" :key="'wait123'">
+      You can't play alone... Please wait for at least one other player!
+    </p>
 
-      <card class="board-card"
-            v-for="(card, idx) in table.board"
-            :key="card"
-            :id="`bc${idx}`"
-            :card="card"/>
+    <div v-else class="table-panel">
+      <div class="poker-table" ref="pokertable">
+        <player v-for="(player, idx) in table.players"
+                :key="idx"
+                :id="`player${idx}`"
+                :player="player"/>
+
+        <p id="pot-count"> Pot: ${{table.pot}} </p>
+
+        <card class="board-card"
+              v-for="(card, idx) in table.board"
+              :key="card"
+              :id="`bc${idx}`"
+              :card="card"/>
+      </div>
+
+      <div class="btm-table-panel">
+        <button class="table-panel-btn">Fold</button>
+        <button class="table-panel-btn">Check</button>
+        <button class="table-panel-btn">Raise</button>
+      </div>
     </div>
+  </transition>
 
-    <div class="btm-table-panel">
-      <button class="table-panel-btn">Fold</button>
-      <button class="table-panel-btn">Check</button>
-      <button class="table-panel-btn">Raise</button>
-    </div>
-  </div>
 </template>
 
 
@@ -41,13 +52,14 @@ export default {
 
   data() {
     return {
-      table: {},
+      table: undefined,
     };
   },
 
   mounted() {
     this.socket.on('update_table', (table) => {
       this.table = table;
+      console.log('table', table);
     });
   },
 };
@@ -94,5 +106,10 @@ export default {
   left: 50%;
   transform: translate(-50%,0);
   color: #d6ac68;
+}
+
+#lw {
+  margin: auto;
+  font-size: 1.5vw;
 }
 </style>
