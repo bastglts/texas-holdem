@@ -14,13 +14,13 @@ const R = require('ramda');
  *
  * @returns
  */
-const hideTable = (table, playerID) => {
+const hideTable = (table, playerName) => {
   // Deep copy of the table
   const tableCopy = R.clone(table);
 
   // Hide every opponents cards and hand
   tableCopy.players.forEach(player => {
-    if (player.ID !== playerID) {
+    if (player.username !== playerName) {
       player.holeCards = player.folded ? [] : ['back', 'back'];
       player.hand = '';
     }
@@ -38,7 +38,7 @@ const hideTable = (table, playerID) => {
  */
 const updateHiddenTable = (table, io) => {
   table.players.forEach(player => {
-    io.to(`${player.ID}`).emit('update_table', hideTable(table, player.ID));
+    io.to(`${player.ID}`).emit('update_table', hideTable(table, player.username));
   });
 };
 
