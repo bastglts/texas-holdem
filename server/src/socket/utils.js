@@ -21,11 +21,11 @@ const hideTable = (table, playerID) => {
   // Hide every opponents cards and hand
   tableCopy.players.forEach(player => {
     if (player.ID !== playerID) {
-      player.holeCards = ['back', 'back'];
+      player.holeCards = player.folded ? [] : ['back', 'back'];
       player.hand = '';
     }
   });
-  console.log('table', table, 'tableCopy', tableCopy);
+
   return tableCopy;
 };
 
