@@ -15,7 +15,6 @@ module.exports = (req, res) => {
     }
 
     if (user) {
-      console.log('fetchUserData:', user);
       res.send(user);
     } else {
       res.send({ err: 'user does not exist' });
