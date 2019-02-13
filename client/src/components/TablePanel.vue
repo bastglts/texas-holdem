@@ -59,7 +59,6 @@ export default {
   mounted() {
     this.socket.on('update_table', (table) => {
       this.table = table;
-      console.log('table', table);
     });
   },
 };
