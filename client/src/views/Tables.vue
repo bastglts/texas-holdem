@@ -15,7 +15,7 @@
           <tr v-for="(table,idx) in tables"
               :key="idx"
               class="table-row"
-              @click="enterTable({name: 'table', params: { name: table.name }})">
+              @click="enterTable(table.name, table.numPlayers)">
             <td>{{ table.name }}</td>
             <td> {{ table.numPlayers }} / 6 </td>
           </tr>
@@ -72,8 +72,13 @@ export default {
         .then(() => this.fetchTablesList());
     },
 
-    enterTable(to) {
-      this.$router.push(to);
+    enterTable(tableName, num) {
+      if (num >= 6) {
+        // eslint-disable-next-line
+        alert('This table is full, please wait or enter another one :).');
+      } else {
+        this.$router.push({ name: 'table', params: { name: tableName } });
+      }
     },
 
     fetchTablesList() {
