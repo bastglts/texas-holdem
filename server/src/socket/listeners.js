@@ -25,8 +25,8 @@ module.exports = (socket, io) => {
           ID: socket.id,
           username: data.player.username,
           count: data.player.count,
-          holeCards: [],
-          hand: '',
+          holeCards: ['8D', 'KS'],
+          hand: 'Straight flush',
           folded: false,
         });
 

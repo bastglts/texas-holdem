@@ -9,7 +9,7 @@
     </div>
     <p> {{ player.username }} </p>
     <p id="count"> ${{ player.count }} </p>
-    <p id="hand"> {{ player.hand }} </p>
+    <div v-if="player.hand" id="hand"> {{ player.hand }} </div>
   </div>
 </template>
 
@@ -76,12 +76,12 @@ export default {
 }
 
 #player3 {
-  bottom: 4%;
+  bottom: 8%;
   right: 22%;
 }
 
 #player4 {
-  bottom: 4%;
+  bottom: 8%;
   left: 22%;
 }
 
@@ -99,8 +99,10 @@ export default {
 }
 
 #hand {
+  width: 100%;
   position: absolute;
-  top: 110%;
+  color: #b95230;
+  top: 105%;
   left: 50%;
   transform: translate(-50%,0);
 }
