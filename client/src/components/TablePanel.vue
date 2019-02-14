@@ -4,7 +4,7 @@
       Loading...
     </p>
 
-    <p v-else-if="table.players.length < 2" class="table-panel" id="lw" :key="'wait123'">
+    <p v-else-if="table.players.length < 3" class="table-panel" id="lw" :key="'wait123'">
       You can't play alone... Please wait for at least one other player!
     </p>
 
@@ -59,6 +59,12 @@ export default {
 
   mounted() {
     this.socket.on('update_table', (table) => {
+      this.table = table;
+    });
+  },
+
+  beforeDestroy() {
+    this.socket.removeListener('update_table', (table) => {
       this.table = table;
     });
   },

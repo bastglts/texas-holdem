@@ -96,6 +96,11 @@ export default {
 
     this.socket.on('update_list', this.fetchTablesList);
   },
+
+
+  beforeDestroy() {
+    this.socket.removeListener('update_list', this.fetchTablesList);
+  },
 };
 </script>
 
