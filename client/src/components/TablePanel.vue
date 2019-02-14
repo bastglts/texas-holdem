@@ -13,6 +13,7 @@
         <player v-for="(player, idx) in table.players"
                 :key="idx"
                 :id="`player${idx}`"
+                :pos="idx"
                 :player="player"/>
 
         <p id="pot-count"> Pot: ${{table.pot}} </p>

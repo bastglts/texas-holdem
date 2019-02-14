@@ -8,10 +8,13 @@
             :card="card"/>
     </div>
     <p> {{ player.username }} </p>
+    <p class="bet" :id="`bet${pos}`"> $2500 </p>
     <p id="count"> ${{ player.count }} </p>
     <div v-if="player.hand" id="hand"> {{ player.hand }} </div>
+    <img class="dlr-btn" :id="`db${pos}`" src="../assets/dlr_btn.svg" alt="dlr_btn">
   </div>
 </template>
+
 
 <script>
 import Card from './Card.vue';
@@ -20,7 +23,7 @@ import Card from './Card.vue';
 export default {
   name: 'Player',
 
-  props: ['player'],
+  props: ['player', 'pos'],
 
   components: {
     Card,
@@ -106,4 +109,79 @@ export default {
   left: 50%;
   transform: translate(-50%,0);
 }
+
+.bet {
+  position: absolute;
+  color: #d6ac68;
+}
+
+#bet0 {
+  top: 200%;
+  left: 60%;
+  transform: translate(-50%,0);
+}
+
+#bet1 {
+  top: 200%;
+  left: 40%;
+  transform: translate(-50%,0);
+}
+
+#bet2 {
+  left: -15%;
+  transform: translate(-50%,0);
+}
+
+#bet3 {
+  top: -200%;
+  left: 40%;
+  transform: translate(-50%,0);
+}
+
+#bet4 {
+  top: -200%;
+  left: 60%;
+  transform: translate(-50%,0);
+}
+
+#bet5 {
+  left: 115%;
+  transform: translate(-50%,0);
+}
+
+.dlr-btn {
+  position: absolute;
+  height: 90%;
+}
+
+#db0 {
+  top: 150%;
+  left: 20%;
+}
+
+#db1 {
+  top: 150%;
+  left: 60%;
+}
+
+#db2 {
+  top: 50%;
+  left: -10%;
+}
+
+#db3 {
+  top: -150%;
+  left: 0%;
+}
+
+#db4 {
+  top: -150%;
+  left: 80%;
+}
+
+#db5 {
+  top: 50%;
+  left: 100%;
+}
+
 </style>
