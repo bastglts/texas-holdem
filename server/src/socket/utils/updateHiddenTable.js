@@ -5,6 +5,19 @@ const R = require('ramda');
 
 
 /**
+ * Emit an `update_table` event and sends a table with hidden opponnent cards.
+ *
+ * @param {*} table Table object.
+ * @param {*} io    Socket.Io instance.
+ */
+module.exports = (table, io) => {
+  table.players.forEach(player => {
+    io.to(`${player.ID}`).emit('update_table', hideTable(table, player.username));
+  });
+};
+
+
+/**
  * Hides the cards and hand of opponents in the `table`.
  *
  * Utility function for the `updateHiddenTable` socket event.
@@ -28,19 +41,3 @@ const hideTable = (table, playerName) => {
 
   return tableCopy;
 };
-
-
-/**
- * Emit an `update_table` event and sends a table with hidden opponnent cards.
- *
- * @param {*} table Table object.
- * @param {*} io    Socket.Io instance.
- */
-const updateHiddenTable = (table, io) => {
-  table.players.forEach(player => {
-    io.to(`${player.ID}`).emit('update_table', hideTable(table, player.username));
-  });
-};
-
-
-module.exports = updateHiddenTable;
