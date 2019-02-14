@@ -10,8 +10,8 @@
     <p> {{ player.username }} </p>
     <p v-if="player.bet" class="bet" :id="`bet${pos}`"> ${{ player.bet }} </p>
     <p id="count"> ${{ player.count }} </p>
-    <div v-if="player.hand" id="hand"> {{ player.hand }} </div>
-    <img v-if="player.position === 'button'" class="dlr-btn" :id="`db${pos}`"
+    <div v-if="player.hand" id="hand"> {{ player.hand.name }} </div>
+    <img v-if="player.position === 'BTN'" class="dlr-btn" :id="`db${pos}`"
          src="../assets/dlr_btn.svg" alt="dlr_btn">
   </div>
 </template>
