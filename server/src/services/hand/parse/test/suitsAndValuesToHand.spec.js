@@ -10,6 +10,7 @@ describe('parse > suitsAndValuesToHand', () => {
     };
 
     const out = {
+      name: 'Highcard',
       value: 0,
       ordered: [11, 10],
     };
@@ -24,6 +25,7 @@ describe('parse > suitsAndValuesToHand', () => {
     };
 
     const out = {
+      name: 'Pair',
       value: 1,
       ordered: [10, 10],
     };
@@ -38,6 +40,7 @@ describe('parse > suitsAndValuesToHand', () => {
     };
 
     const out = {
+      name: 'Pair',
       value: 1,
       ordered: [10, 10, 14, 5, 2],
     };
@@ -52,6 +55,7 @@ describe('parse > suitsAndValuesToHand', () => {
     };
 
     const out = {
+      name: 'Highcard',
       value: 0,
       ordered: [14, 11, 10, 5, 2],
     };
@@ -66,6 +70,7 @@ describe('parse > suitsAndValuesToHand', () => {
     };
 
     const out = {
+      name: 'Flush',
       value: 5,
       ordered: [14, 11, 10, 5, 2],
     };

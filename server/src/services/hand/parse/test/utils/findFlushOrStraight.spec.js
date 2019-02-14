@@ -8,6 +8,7 @@ describe('parse > utils > findFlushOrStraight', () => {
     const values = [7, 5, 4, 3, 2];
 
     const out = {
+      name: 'Flush',
       value: 5,
       ordered: values,
     };
@@ -20,6 +21,7 @@ describe('parse > utils > findFlushOrStraight', () => {
     const values = [6, 5, 4, 3, 2];
 
     const out = {
+      name: 'Straight flush',
       value: 8,
       ordered: values,
     };
@@ -32,6 +34,7 @@ describe('parse > utils > findFlushOrStraight', () => {
     const values = [6, 5, 4, 3, 2];
 
     const out = {
+      name: 'Straight',
       value: 4,
       ordered: values,
     };
@@ -44,6 +47,7 @@ describe('parse > utils > findFlushOrStraight', () => {
     const values = [14, 13, 12, 11, 10];
 
     const out = {
+      name: 'Royal flush',
       value: 9,
       ordered: values,
     };
@@ -56,6 +60,7 @@ describe('parse > utils > findFlushOrStraight', () => {
     const values = [14, 10, 4, 3, 2];
 
     const out = {
+      name: 'Highcard',
       value: 0,
       ordered: values,
     };
