@@ -11,10 +11,11 @@ const findFlushOrStraight = require('./utils/findFlushOrStraight');
  *                                decreasing order. Ex: { suits: ['S', 'S', 'S', 'S', 'S'],
  *                                values: [ 14, 13, 12, 11, 10] }.
  *
- * @returns {Object}              Object containing two properties. Its value property goes
- *                                from 0 for Highcard to 9 for Royal Flush. Its ordered property
- *                                is an array of ordered card values for easy comparing in case of
- *                                a tie, for example [9, 9, 5, 5, 12] for 2 pairs.
+ * @returns {Object}     Object containing three properties. Its value property goes
+ *                       from 0 for Highcard to 9 for Royal Flush, its name property
+ *                       is the name of the hand (string). Its ordered property
+ *                       is an array of ordered card values for easy comparing in case of
+ *                       a tie, for example [9, 9, 5, 5, 12] for 2 pairs.
  */
 module.exports = (suitsAndValues) => {
   const { suits, values } = suitsAndValues;
@@ -35,5 +36,6 @@ module.exports = (suitsAndValues) => {
   return {
     value: 0,
     ordered: values,
+    name: 'Highcard',
   };
 };

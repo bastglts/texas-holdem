@@ -6,8 +6,9 @@
  * @param {Array} values Values of the hand in decreasing order, e.g. [14, 13, 12, 11, 10].
  * @param {Array} suits  Array of suits, e.g. ['S', 'D', 'C', 'S', 'S'].
  *
- * @returns {Object}     Object containing two properties. Its value property goes
- *                       from 0 for Highcard to 9 for Royal Flush. Its ordered property
+ * @returns {Object}     Object containing three properties. Its value property goes
+ *                       from 0 for Highcard to 9 for Royal Flush, its name property
+ *                       is the name of the hand (string). Its ordered property
  *                       is an array of ordered card values for easy comparing in case of
  *                       a tie, for example [9, 9, 5, 5, 12] for 2 pairs.
  */
@@ -29,5 +30,14 @@ module.exports = (values, suits) => {
       : straight
         ? 4
         : 0,
+    name: flush
+      ? straight
+        ? royal
+          ? 'Royal flush'
+          : 'Straight flush'
+        : 'Flush'
+      : straight
+        ? 'Straight'
+        : 'Highcard',
   };
 };
