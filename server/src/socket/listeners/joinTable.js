@@ -14,35 +14,39 @@ const ee = require('../../events/EventEmitter');
  * @param {*} socket Current socket.
  */
 module.exports = async (data, io, socket) => {
-  // Add socket to the table group
-  socket.join(`${data.tableName}`);
+  try {
+    // Add socket to the table group
+    socket.join(`${data.tableName}`);
 
-  // Retrieve table from database
-  const table = await Table.findOne({ name: data.tableName });
+    // Retrieve table from database
+    const table = await Table.findOne({ name: data.tableName });
 
-  // Add the new player
-  table.players.push({
-    ID: socket.id,
-    username: data.player.username,
-    count: data.player.count,
-    holeCards: [],
-    hand: {},
-    folded: true,
-    position: '',
-    bet: 0,
-    isSpeaking: false,
-  });
+    // Add the new player
+    table.players.push({
+      ID: socket.id,
+      username: data.player.username,
+      count: data.player.count,
+      holeCards: [],
+      hand: {},
+      folded: true,
+      position: '',
+      bet: 0,
+      isSpeaking: false,
+    });
 
-  // Save the document
-  const newTable = await table.save();
+    // Save the document
+    const newTable = await table.save();
 
-  // Emit events to update font-end accordingly
-  updateHiddenTable(newTable, io);
-  io.emit('update_list');
-  io.in(newTable.name).emit('msg', { msg: `${data.player.username} has joined the table` });
+    // Emit events to update font-end accordingly
+    updateHiddenTable(newTable, io);
+    io.emit('update_list');
+    io.in(newTable.name).emit('msg', { msg: `${data.player.username} has joined the table` });
 
-  // Start the round
-  if (newTable.players.length > 2) {
-    ee.emit('play_round', { tableName: newTable.name, io: io });
+    // Start the round
+    if (newTable.players.length > 2) {
+      ee.emit('play_round', { tableName: newTable.name, io: io });
+    }
+  } catch (err) {
+    console.log(err);
   }
 };

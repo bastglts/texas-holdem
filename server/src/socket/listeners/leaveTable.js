@@ -12,17 +12,21 @@ const updateHiddenTable = require('../utils/updateHiddenTable');
  * @param {*} io     Socket.io instance.
  */
 module.exports = async (data, io) => {
-  // Retrieve table from database
-  const table = await Table.findOne({ name: data.tableName });
+  try {
+    // Retrieve table from database
+    const table = await Table.findOne({ name: data.tableName });
 
-  // Remove player
-  table.players = table.players.filter(player => player.username !== data.username);
+    // Remove player
+    table.players = table.players.filter(player => player.username !== data.username);
 
-  // Save document
-  const newTable = await table.save();
+    // Save document
+    const newTable = await table.save();
 
-  // Emit events to update font-end accordingly
-  updateHiddenTable(newTable, io);
-  io.emit('update_list');
-  io.in(newTable.name).emit('msg', { msg: `${data.username} has left the table` });
+    // Emit events to update font-end accordingly
+    updateHiddenTable(newTable, io);
+    io.emit('update_list');
+    io.in(newTable.name).emit('msg', { msg: `${data.username} has left the table` });
+  } catch (err) {
+    console.log(err);
+  }
 };
