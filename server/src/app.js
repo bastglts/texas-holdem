@@ -14,7 +14,7 @@ const userRoutes = require('./routes/user');
 const tableRoutes = require('./routes/table');
 const User = require('./models/user');
 const dbConfig = require('./config/db');
-const socketListeners = require('./socket/listeners');
+const socketEvents = require('./socket/events');
 
 
 /* -------------- Create express app -------------- */
@@ -77,9 +77,13 @@ mongoose.connect(dbConfig.url, { useNewUrlParser: true })
     // Create socket.io instance
     const io = socketIo(server);
 
+    // Listen for socket events
     io.on('connection', (socket) => {
-      socketListeners(socket, io);
+      socketEvents(socket, io);
     });
+
+    // Listen for node events
+    require('./events/events');
   }).catch(err => {
     console.log('Could not connect to the database. Exiting now...', err);
     process.exit();

@@ -9,9 +9,24 @@ const Schema = mongoose.Schema;
 
 const TableSchema = new Schema({
   name: String,
-  players: Array,
+  players: [{
+    ID: String,
+    username: String,
+    count: Number,
+    holeCards: [String],
+    hand: {
+      name: String,
+      value: Number,
+      ordered: [Number],
+    },
+    folded: Boolean,
+    position: String,
+    bet: Number,
+    isSpeaking: Boolean,
+  }],
   board: Array,
   pot: Number,
+  playing: Boolean,
 });
 
 

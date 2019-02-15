@@ -69,7 +69,9 @@ export default {
 
     createTable() {
       TableService.createTable(this.tableName)
-        .then(() => this.fetchTablesList());
+        .then(() => {
+          this.socket.emit('create_table');
+        });
     },
 
     enterTable(tableName, num) {
@@ -99,7 +101,7 @@ export default {
 
 
   beforeDestroy() {
-    this.socket.removeListener('update_list', this.fetchTablesList);
+    this.socket.removeAllListeners('update_list');
   },
 };
 </script>
