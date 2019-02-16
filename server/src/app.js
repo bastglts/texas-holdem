@@ -64,7 +64,7 @@ app.use('/table', tableRoutes);
 
 
 /* ----- Connect to database and create server ---- */
-mongoose.connect(dbConfig.url, { useNewUrlParser: true })
+mongoose.connect(dbConfig.url, { useNewUrlParser: true, useFindAndModify: false })
   .then(() => {
     console.log('Successfully connected to the database');
 
