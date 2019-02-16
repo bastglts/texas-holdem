@@ -1,8 +1,7 @@
 'use strict';
 
 /* -------- Dependency ---------- */
-const R = require('ramda');
-
+const Table = require('../../models/table');
 
 /**
  * Emit an `update_table` event and sends a table with hidden opponnent cards.
@@ -11,33 +10,17 @@ const R = require('ramda');
  * @param {*} io    Socket.Io instance.
  */
 module.exports = (table, io) => {
-  table.players.forEach(player => {
-    io.to(`${player.ID}`).emit('update_table', hideTable(table, player.username));
+  table.players.forEach(async player => {
+    // Retrieve fresh document from database
+    const freshTable = await Table.findOne({ name: table.name });
+
+    // Hide every opponents cards and hand
+    freshTable.players.forEach(opponent => {
+      if (opponent.username !== player.username) {
+        opponent.holeCards = opponent.folded ? [] : ['back', 'back'];
+        opponent.hand = {};
+      }
+    });
+    io.to(`${player.ID}`).emit('update_table', freshTable);
   });
-};
-
-
-/**
- * Hides the cards and hand of opponents in the `table`.
- *
- * Utility function for the `updateHiddenTable` socket event.
- *
- * @param {*} table    Table object.
- * @param {*} playerID Socket ID of the current player.
- *
- * @returns
- */
-const hideTable = (table, playerName) => {
-  // Deep copy of the table
-  const tableCopy = R.clone(table);
-
-  // Hide every opponents cards and hand
-  tableCopy.players.forEach(player => {
-    if (player.username !== playerName) {
-      player.holeCards = player.folded ? [] : ['back', 'back'];
-      player.hand = '';
-    }
-  });
-
-  return tableCopy;
 };
