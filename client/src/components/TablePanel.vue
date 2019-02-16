@@ -26,13 +26,14 @@
       </div>
 
       <div class="btm-table-panel">
-        <button class="table-panel-btn">Fold</button>
-        <button class="table-panel-btn">Check</button>
-        <button class="table-panel-btn">Raise</button>
+        <template v-if="isSpeaking">
+          <button class="table-panel-btn">Fold</button>
+          <button class="table-panel-btn">Check</button>
+          <button class="table-panel-btn">Raise</button>
+        </template>
       </div>
     </div>
   </transition>
-
 </template>
 
 
@@ -54,19 +55,19 @@ export default {
   data() {
     return {
       table: undefined,
+      isSpeaking: false,
     };
   },
 
   mounted() {
     this.socket.on('update_table', (table) => {
       this.table = table;
+      this.isSpeaking = table.players.find(plyr => plyr.username === this.user).isSpeaking;
     });
   },
 
   beforeDestroy() {
-    this.socket.removeListener('update_table', (table) => {
-      this.table = table;
-    });
+    this.socket.removeAllListeners('update_table');
   },
 };
 </script>
