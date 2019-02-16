@@ -13,6 +13,8 @@
     <div v-if="player.hand" id="hand"> {{ player.hand.name }} </div>
     <img v-if="player.position === 'BTN'" class="dlr-btn" :id="`db${pos}`"
          src="../assets/dlr_btn.svg" alt="dlr_btn">
+    <img v-if="player.isSpeaking" class="hourglass" :id="`hg${pos}`"
+         src="../assets/hourglass.svg" alt="hourglass">
   </div>
 </template>
 
@@ -185,4 +187,24 @@ export default {
   left: 100%;
 }
 
+.hourglass {
+    position: absolute;
+    top: 15%;
+    height: 70%;
+    transform-origin: center center;
+    -webkit-animation:spin 4s linear infinite;
+    -moz-animation:spin 4s linear infinite;
+    animation:spin 4s linear infinite;
+}
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+
+#hg0, #hg5, #hg4 {
+  left: 80%;
+}
+
+#hg1, #hg2, #hg3 {
+  right: 80%;
+}
 </style>
