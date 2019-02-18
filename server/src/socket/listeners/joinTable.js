@@ -32,6 +32,7 @@ module.exports = async (data, io, socket) => {
       position: '',
       bet: 0,
       isSpeaking: false,
+      isPlaying: false,
     });
 
     // Save the document
@@ -42,9 +43,9 @@ module.exports = async (data, io, socket) => {
     io.emit('update_list');
     io.in(newTable.name).emit('msg', { msg: `${data.player.username} has joined the table` });
 
-    // Start the round
-    if (newTable.players.length > 2) {
-      ee.emit('play_round', { tableName: newTable.name, io: io });
+    // Start the hand
+    if (newTable.players.length > 1) {
+      ee.emit('start_hand', { tableName: newTable.name, io: io });
     }
   } catch (err) {
     console.log(err);

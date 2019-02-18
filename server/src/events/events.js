@@ -5,5 +5,5 @@ const listeners = require('./listeners/index');
 const ee = require('./EventEmitter');
 
 /* ------------------- Node events -------------------- */
-// Play the round
-ee.on('play_round', (data) => listeners.playRound(data));
+// Start new hand
+ee.on('start_hand', (data) => listeners.startHand(data));
