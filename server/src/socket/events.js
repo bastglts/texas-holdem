@@ -17,4 +17,7 @@ module.exports = (socket, io) => {
 
   // Remove player from the table
   socket.on('leave_table', (data) => listeners.leaveTable(data, io));
+
+  // Player folds
+  socket.on('player_folds', (data) => listeners.fold(data, io));
 };
