@@ -4,7 +4,7 @@
       Loading...
     </p>
 
-    <p v-else-if="table.players.length < 3" class="table-panel" id="lw" :key="'wait123'">
+    <p v-else-if="table.players.length < 2" class="table-panel" id="lw" :key="'wait123'">
       You can't play alone... Please wait for at least one other player!
     </p>
 
@@ -27,9 +27,16 @@
 
       <div class="btm-table-panel">
         <template v-if="isSpeaking">
-          <button class="table-panel-btn">Fold</button>
-          <button class="table-panel-btn">Check</button>
-          <button class="table-panel-btn">Raise</button>
+          <button class="table-panel-btn" @click="fold">Fold</button>
+          <button class="table-panel-btn">Call {{table.lastBet}} </button>
+          <button class="table-panel-btn">Raise to {{raiseAmount}} </button>
+          <input type="text" v-model="raiseAmount" :placeholder="raiseAmount">
+<!--           <button class="table-panel-btn" @click="min">MIN</button>
+          <button class="table-panel-btn" @click="three">X3</button>
+          <button class="table-panel-btn" @click="four">X4</button>
+          <button class="table-panel-btn" @click="five">X5</button>
+          <button class="table-panel-btn" @click="fold">POT</button>
+          <button class="table-panel-btn" @click="fold">ALL IN</button> -->
         </template>
       </div>
     </div>
@@ -56,13 +63,22 @@ export default {
     return {
       table: undefined,
       isSpeaking: false,
+      raiseAmount: undefined,
     };
+  },
+
+  methods: {
+    fold() {
+      this.socket.emit('player_folds', { username: this.user, tableName: this.table.name });
+    },
   },
 
   mounted() {
     this.socket.on('update_table', (table) => {
       this.table = table;
       this.isSpeaking = table.players.find(plyr => plyr.username === this.user).isSpeaking;
+      this.raiseAmount = table.lastBet + (table.lastRaise || 20);
+      console.log('table', table);
     });
   },
 
@@ -99,6 +115,18 @@ export default {
   box-shadow: 0px -5px 3px 2px #050517bd;
   height: 15%;
   justify-content: center;
+}
+
+.btm-table-panel input {
+  padding: 0px;
+  width: 20%;
+  height: 40%;
+  font-size: 1.2vw;
+  color: white;
+  box-sizing: border-box;
+  border-width: 1%;
+  border-style: solid;
+  border-color: #cf5c36;
 }
 
 .table-panel {

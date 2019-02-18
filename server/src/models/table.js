@@ -23,12 +23,18 @@ const TableSchema = new Schema({
     position: String,
     bet: Number,
     isSpeaking: Boolean,
+    isPlaying: Boolean,
   }],
   board: Array,
   pot: Number,
-  playing: Boolean,
+  lastBet: Number,
+  lastRaise: Number,
+  shuffledDeck: [String],
+  smallBlind: Number,
+  bigBlind: Number,
+  postFlop: Boolean,
+  positions: [String],
 });
-
 
 /* ------------ Create and export Model ----------- */
 module.exports = mongoose.model('table', TableSchema);
