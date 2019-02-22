@@ -4,8 +4,12 @@
       Loading...
     </p>
 
-    <p v-else-if="table.players.length < 2" class="table-panel" id="lw" :key="'wait123'">
+    <p v-else-if="table.players.length === 1" class="table-panel" id="lw" :key="'wait123'">
       You can't play alone... Please wait for at least one other player!
+    </p>
+
+    <p v-else-if="table.round === ''" class="table-panel" id="lw" :key="'wait456'">
+      Hand is about to start, waiting a few seconds for other players to join in...
     </p>
 
     <div v-else class="table-panel">
@@ -26,10 +30,11 @@
       </div>
 
       <div class="btm-table-panel">
-        <template v-if="isSpeaking">
-          <button class="table-panel-btn" @click="fold">Fold</button>
-          <button class="table-panel-btn">Call {{table.lastBet}} </button>
-          <button class="table-panel-btn">Raise to {{raiseAmount}} </button>
+        <template v-if="player.isSpeaking">
+          <button class="tbl-panel-btn" @click="action('fold')">Fold</button>
+          <button class="tbl-panel-btn" @click="action('call')">Call {{callAmount}} </button>
+          <button class="tbl-panel-btn" @click="action('raise')">Raise to {{raiseAmount}}</button>
+
           <input type="text" v-model="raiseAmount" :placeholder="raiseAmount">
 <!--           <button class="table-panel-btn" @click="min">MIN</button>
           <button class="table-panel-btn" @click="three">X3</button>
@@ -62,23 +67,29 @@ export default {
   data() {
     return {
       table: undefined,
-      isSpeaking: false,
-      raiseAmount: undefined,
+      player: undefined,
+      raiseAmount: 0,
+      callAmount: 0,
     };
   },
 
   methods: {
-    fold() {
-      this.socket.emit('player_folds', { username: this.user, tableName: this.table.name });
+    action(act) {
+      this.socket.emit(`player_${act}`, {
+        username: this.user,
+        tableName: this.table.name,
+        callAmount: this.callAmount,
+        raiseAmount: this.raiseAmount,
+      });
     },
   },
 
   mounted() {
     this.socket.on('update_table', (table) => {
       this.table = table;
-      this.isSpeaking = table.players.find(plyr => plyr.username === this.user).isSpeaking;
+      this.player = table.players.find(plyr => plyr.username === this.user);
+      this.callAmount = table.lastBet - this.player.lastBet;
       this.raiseAmount = table.lastBet + (table.lastRaise || 20);
-      console.log('table', table);
     });
   },
 
@@ -90,7 +101,7 @@ export default {
 
 
 <style>
-.table-panel-btn {
+.tbl-panel-btn {
   padding: 0px;
   width: 20%;
   height: 40%;

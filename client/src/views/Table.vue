@@ -4,7 +4,7 @@
        ref="table">
 
     <table-panel :user="user" :socket="socket"/>
-    <chat-panel :user="user" :socket="socket" :tableName="this.$route.params.name"/>
+    <chat-panel :user="user" :socket="socket" :tableName="tableName"/>
   </div>
 </template>
 
@@ -26,6 +26,7 @@ export default {
 
   data() {
     return {
+      tableName: '',
       tableWidth: 0,
       tableHeight: 0,
       user: '',
@@ -52,7 +53,11 @@ export default {
       UserService.fetchUserData().then((plyr) => {
         this.user = plyr.username;
 
-        this.socket.emit('join_table', { player: plyr, tableName: this.tableName });
+        this.socket.emit('join_table', {
+          username: this.user,
+          chips: 2000,
+          tableName: this.tableName,
+        });
       });
     },
 

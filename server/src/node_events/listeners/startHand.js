@@ -5,7 +5,6 @@ const updateHiddenTable = require('../../socket/utils/updateHiddenTable');
 const shuffleArray = require('../../services/tools/src/shuffleArray');
 const parseHand = require('../../services/hand/parse/src/parse');
 const Table = require('../../models/table');
-const User = require('../../models/user');
 
 
 const deck = [
@@ -36,6 +35,7 @@ module.exports = async (data) => {
     table.bigBlind = 20;
     table.pot = table.bigBlind + table.smallBlind;
     table.lastBet = table.bigBlind;
+    table.lastRaise = 0;
 
     // Set table positions (button = small blind for a Heads Up)
     table.positions = numPlayers > 2
@@ -43,7 +43,7 @@ module.exports = async (data) => {
       : ['BTN', 'BB'];
 
     // Set betting round to pre-flop
-    table.postFlop = false;
+    table.round = 'Preflop';
 
 
     /* ---------------- Set players properties ---------------- */
@@ -52,8 +52,8 @@ module.exports = async (data) => {
       let player = table.players[i];
 
       // Every player sitting at the table will automatically play the hand
-      player.isPlaying = true;
-      player.folded = false;
+      player.hasFolded = false;
+      player.isLastRaiser = false;
 
       // Deal cards to player and compute pocket hand's value and name
       player.holeCards = [table.shuffledDeck.pop(), table.shuffledDeck.pop()];
@@ -77,27 +77,28 @@ module.exports = async (data) => {
       player.isSpeaking = player.position === (numPlayers > 3 ? 'UTG' : 'BTN');
 
       // Set blinds
-      player.bet = player.position === (numPlayers > 2 ? 'SB' : 'BTN')
+      player.lastBet = player.position === (numPlayers > 2 ? 'SB' : 'BTN')
         ? table.smallBlind
         : player.position === 'BB'
           ? table.bigBlind
           : 0;
 
       // If player posts a blind
-      if (player.bet) {
+      if (player.lastBet) {
         // Send message
         data.io.in(table.name).emit('msg', {
-          msg: `${player.username} posts $${player.bet} (${player.position})`,
+          msg: `${player.username} posts $${player.lastBet} (${player.position})`,
         });
       }
 
-      // Set and update count
-      const user = await User.findOne({ username: player.username });
+      // Preflop, if all players fold or call the BB, the player in the BB can check or bet.
+      // So we disguise the player to its left as the last raiser, in order to end the round
+      // easily if we are in this situation (see src>socket>listeners>call line 54).
+      player.isLastRaiser =
+        player.position === table.positions[(table.positions.indexOf('BB') + 1) % numPlayers];
 
-      user.count -= player.bet;
-      player.count = user.count;
-
-      await user.save();
+      // Adjust chips count
+      player.count -= player.lastBet;
     }
 
 

@@ -19,5 +19,8 @@ module.exports = (socket, io) => {
   socket.on('leave_table', (data) => listeners.leaveTable(data, io));
 
   // Player folds
-  socket.on('player_folds', (data) => listeners.fold(data, io));
+  socket.on('player_fold', (data) => listeners.fold(data, io));
+
+  // Player calls
+  socket.on('player_call', (data) => listeners.call(data, io));
 };

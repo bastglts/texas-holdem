@@ -19,11 +19,11 @@ const TableSchema = new Schema({
       value: Number,
       ordered: [Number],
     },
-    folded: Boolean,
+    hasFolded: Boolean,
     position: String,
-    bet: Number,
+    lastBet: Number,
     isSpeaking: Boolean,
-    isPlaying: Boolean,
+    isLastRaiser: Boolean,
   }],
   board: Array,
   pot: Number,
@@ -32,7 +32,7 @@ const TableSchema = new Schema({
   shuffledDeck: [String],
   smallBlind: Number,
   bigBlind: Number,
-  postFlop: Boolean,
+  round: String,
   positions: [String],
 });
 

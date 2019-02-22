@@ -59,6 +59,8 @@ export default {
 
 
   watch: {
+    $route: 'isLoggedIn',
+
     // Fetch (or empty) player name only when login status change.
     loggedIn: 'fetchUsername',
   },

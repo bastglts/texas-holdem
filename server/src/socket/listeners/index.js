@@ -6,4 +6,5 @@ module.exports = {
   joinTable: require('./joinTable'),
   leaveTable: require('./leaveTable'),
   fold: require('./fold'),
+  call: require('./call'),
 };

@@ -83,7 +83,7 @@ mongoose.connect(dbConfig.url, { useNewUrlParser: true, useFindAndModify: false 
     });
 
     // Listen for node events
-    require('./events/events');
+    require('./node_events/events');
   }).catch(err => {
     console.log('Could not connect to the database. Exiting now...', err);
     process.exit();

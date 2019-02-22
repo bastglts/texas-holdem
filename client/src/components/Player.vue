@@ -8,7 +8,7 @@
             :card="card"/>
     </div>
     <p> {{ player.username }} </p>
-    <p v-if="player.bet" class="bet" :id="`bet${pos}`"> ${{ player.bet }} </p>
+    <p v-if="player.lastBet" class="bet" :id="`bet${pos}`"> ${{ player.lastBet }} </p>
     <p id="count"> ${{ player.count }} </p>
     <div v-if="player.hand" id="hand"> {{ player.hand.name }} </div>
     <img v-if="player.position === 'BTN'" class="dlr-btn" :id="`db${pos}`"

@@ -10,6 +10,7 @@ const Table = require('../../models/table');
 module.exports = (req, res) => {
   const table = new Table({
     name: req.body.name,
+    round: '',
   });
 
   // Save table to database

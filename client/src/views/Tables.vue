@@ -70,7 +70,8 @@ export default {
     createTable() {
       TableService.createTable(this.tableName)
         .then(() => {
-          this.socket.emit('create_table');
+          this.socket.emit('table_created');
+          this.$router.push({ name: 'table', params: { name: this.tableName } });
         });
     },
 

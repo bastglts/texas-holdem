@@ -11,10 +11,7 @@ const Table = require('../../models/table');
  * @param {*} io    Socket.Io instance.
  */
 module.exports = async (table, io) => {
-  for (let i = 0; i < table.players.length; i++) {
-    // Current player
-    let player = table.players[i];
-
+  for (const player of table.players) {
     // Retrieve fresh document from database
     const freshTable = await Table.findOne({ name: table.name });
 
@@ -22,12 +19,12 @@ module.exports = async (table, io) => {
     freshTable.shuffledDeck = [];
 
     // Hide every opponents cards and hand
-    freshTable.players.forEach(opponent => {
+    for (const opponent of freshTable.players) {
       if (opponent.username !== player.username) {
-        opponent.holeCards = opponent.folded ? [] : ['back', 'back'];
+        opponent.holeCards = opponent.hasFolded ? [] : ['back', 'back'];
         opponent.hand = {};
       }
-    });
+    }
 
     io.to(`${player.ID}`).emit('update_table', freshTable);
   }
