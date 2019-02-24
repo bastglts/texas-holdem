@@ -23,6 +23,11 @@ module.exports = async (data, io, socket) => {
     // Retrieve table from database
     const table = await Table.findOne({ name: data.tableName });
 
+    // Pick a random seat for the player to sit in
+    const seat = table.availSeats.splice(Math.floor(Math.random() * table.availSeats.length), 1);
+    table.occupiedSeats.push(seat[0]);
+    table.occupiedSeats.sort((a, b) => a - b);
+
     // Update the account of the player joining the table according to the amount of chips
     // he is playing.
     const player = await User.findOne({ username: data.username });
@@ -41,6 +46,8 @@ module.exports = async (data, io, socket) => {
       lastBet: 0,
       isSpeaking: false,
       isPlaying: false,
+      isAllIn: false,
+      seat: seat[0],
     });
 
     // Save the document

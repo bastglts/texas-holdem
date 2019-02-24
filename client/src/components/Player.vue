@@ -8,12 +8,12 @@
             :card="card"/>
     </div>
     <p> {{ player.username }} </p>
-    <p v-if="player.lastBet" class="bet" :id="`bet${pos}`"> ${{ player.lastBet }} </p>
+    <p v-if="player.lastBet" class="bet" :id="`bet${seat}`"> ${{ player.lastBet }} </p>
     <p id="count"> ${{ player.count }} </p>
     <div v-if="player.hand" id="hand"> {{ player.hand.name }} </div>
-    <img v-if="player.position === 'BTN'" class="dlr-btn" :id="`db${pos}`"
+    <img v-if="player.position === 'BTN'" class="dlr-btn" :id="`db${seat}`"
          src="../assets/dlr_btn.svg" alt="dlr_btn">
-    <img v-if="player.isSpeaking" class="hourglass" :id="`hg${pos}`"
+    <img v-if="player.isSpeaking" class="hourglass" :id="`hg${seat}`"
          src="../assets/hourglass.svg" alt="hourglass">
   </div>
 </template>
@@ -26,7 +26,7 @@ import Card from './Card.vue';
 export default {
   name: 'Player',
 
-  props: ['player', 'pos'],
+  props: ['player', 'seat'],
 
   components: {
     Card,

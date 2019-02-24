@@ -23,7 +23,9 @@ const TableSchema = new Schema({
     position: String,
     lastBet: Number,
     isSpeaking: Boolean,
+    isAllIn: Boolean,
     isLastRaiser: Boolean,
+    seat: Number,
   }],
   board: Array,
   pot: Number,
@@ -34,6 +36,10 @@ const TableSchema = new Schema({
   bigBlind: Number,
   round: String,
   positions: [String],
+  isNewOne: Boolean,
+  availSeats: [Number],
+  occupiedSeats: [Number],
+  buttonSeat: Number,
 });
 
 /* ------------ Create and export Model ----------- */

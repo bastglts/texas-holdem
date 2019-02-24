@@ -9,38 +9,39 @@ module.exports = async (data, io) => {
     // Retrieve table from database
     const table = await Table.findOne({ name: data.tableName });
 
-    // Adjust table pot
-    table.pot += data.callAmount;
-    table.lastBet += data.extraAmount;
+    // Adjust table values
+    table.pot += data.raise.amount;
+    table.lastRaise = data.raise.to - table.lastBet;
+    table.lastBet = data.raise.to;
 
-    // Loop over players to find the one who is calling
+    // Loop over players to find the one who is raising
     for (const player of table.players) {
       // Find the right one
       if (player.username === data.username) {
         // Adjust player's bet and end his/her turn
         player.isSpeaking = false;
-        player.lastBet = player.lastBet + data.callAmount + data.extraAmount;
+        player.lastBet = data.raise.to;
 
-        // Set lastRaiser property to true if 'call plus extra' scenario
-        player.isLastRaiser = data.extraAmount > 0;
+        // Set player as last raisr
+        player.isLastRaiser = true;
 
         // Note player's position
         table.currPlayerPos = player.position;
 
         // Adjust chips count
-        player.count -= data.callAmount + data.extraAmount;
+        player.count -= data.raise.amount;
 
         // Set all-in property if needed
         player.isAllIn = player.count === 0;
 
+
         // Display message
-        const msgEnd = data.callAmount === 0
-          ? ' checks'
-          : data.extraAmount === 0
-            ? ` calls $${data.callAmount}`
-            : ` raises to ${table.lastBet + data.extraAmount} (ALL IN)`;
-        io.in(table.name).emit('msg', { msg: player.username + msgEnd });
-      } else if (data.extraAmount > 0) {
+        const allInMsg = player.isAllIn ? 'ALL IN' : '';
+
+        io.in(table.name).emit('msg', {
+          msg: `${player.username} raises ` + allInMsg + ` to $${data.raise.to}`,
+        });
+      } else {
         // Erase last raiser
         player.isLastRaiser = false;
       }

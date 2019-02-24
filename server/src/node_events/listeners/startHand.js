@@ -5,7 +5,7 @@ const updateHiddenTable = require('../../socket/utils/updateHiddenTable');
 const shuffleArray = require('../../services/tools/src/shuffleArray');
 const parseHand = require('../../services/hand/parse/src/parse');
 const Table = require('../../models/table');
-
+const turnButton = require('../utils/turnButton');
 
 const deck = [
   '2H', '3H', '4H', '5H', '6H', '7H', '8H', '9H', 'TH', 'JH', 'QH', 'KH', 'AH',
@@ -37,41 +37,53 @@ module.exports = async (data) => {
     table.lastBet = table.bigBlind;
     table.lastRaise = 0;
 
+    // Set betting round to pre-flop
+    table.round = 'Preflop';
+
     // Set table positions (button = small blind for a Heads Up)
     table.positions = numPlayers > 2
       ? positions.slice(0, numPlayers)
       : ['BTN', 'BB'];
 
-    // Set betting round to pre-flop
-    table.round = 'Preflop';
+    // Turn button position and associate seats to positions
+    let ordSeats = [];
+    const seatsToPositions = {};
 
+    if (table.isNewOne) {
+      table.buttonSeat = table.occupiedSeats[0];
+      ordSeats = table.occupiedSeats;
+    } else {
+      console.log('buttonSeat before:', table.buttonSeat);
+      table.buttonSeat = turnButton(table.buttonSeat, table.occupiedSeats);
+      console.log('buttonSeat after:', table.buttonSeat);
+      console.log('occupiedSeats:', table.occupiedSeats);
+      const idxOfButtonSeat = table.occupiedSeats.indexOf(table.buttonSeat);
+      console.log('idxOfButtonSeat:', idxOfButtonSeat);
+      ordSeats = [
+        ...table.occupiedSeats.slice(idxOfButtonSeat),
+        ...table.occupiedSeats.slice(0, idxOfButtonSeat),
+      ];
+      console.log('ordSeats:', ordSeats);
+    }
+
+    for (let i = 0; i < numPlayers; i++) {
+      seatsToPositions[ordSeats[i]] = table.positions[i];
+    }
+
+    console.log(seatsToPositions);
 
     /* ---------------- Set players properties ---------------- */
-    for (let i = 0; i < numPlayers; i++) {
-      // Current player
-      let player = table.players[i];
-
+    for (const player of table.players) {
       // Every player sitting at the table will automatically play the hand
       player.hasFolded = false;
-      player.isLastRaiser = false;
+      player.isAllIn = false;
 
       // Deal cards to player and compute pocket hand's value and name
       player.holeCards = [table.shuffledDeck.pop(), table.shuffledDeck.pop()];
       player.hand = parseHand(player.holeCards.join(' '));
 
       // Set player's position
-      if (!player.position) { // If new to the table
-        player.position = table.positions[i];
-      } else { // Else determine the new one based on the previous
-        // Decrement position index
-        let newPosIndex = table.positions.indexOf(player.position) - 1;
-
-        // Handle BTN edge case
-        newPosIndex = (newPosIndex < 0) ? (numPlayers - 1) : newPosIndex;
-
-        // Set position
-        player.position = table.positions[newPosIndex];
-      }
+      player.position = seatsToPositions[player.seat];
 
       // Determine who is speaking first
       player.isSpeaking = player.position === (numPlayers > 3 ? 'UTG' : 'BTN');
@@ -101,6 +113,10 @@ module.exports = async (data) => {
       player.count -= player.lastBet;
     }
 
+    // If table is new, it won't be anymore
+    if (table.isNewOne) {
+      table.isNewOne = false;
+    }
 
     // Save document
     const newTable = await table.save();

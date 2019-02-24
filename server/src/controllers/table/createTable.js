@@ -11,6 +11,9 @@ module.exports = (req, res) => {
   const table = new Table({
     name: req.body.name,
     round: '',
+    isNewOne: true,
+    availSeats: [0, 1, 2, 3, 4, 5],
+    occupiedSeats: [],
   });
 
   // Save table to database

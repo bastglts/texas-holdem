@@ -21,8 +21,8 @@
         <player
           v-for="(player, idx) in table.players"
           :key="idx"
-          :id="`player${idx}`"
-          :pos="idx"
+          :id="`player${player.seat}`"
+          :seat="player.seat"
           :player="player"
         />
 
@@ -41,14 +41,15 @@
         <template v-if="player.isSpeaking">
           <div class="tbl-panel-btns">
             <button @click="action('fold')">Fold</button>
-            <button @click="action('call')">Call {{callAmount}}</button>
-            <button v-if="!allInCall" @click="action('raise')">Raise to {{raiseAmount}}</button>
+            <button @click="action('call')">{{callTxt}}</button>
+            <button v-if="!isAllInToCall" @click="action('raise')">{{raiseTxt}}</button>
           </div>
 
-          <div v-if="!allInRaise" class="tbl-panel-inputs">
-            <input v-model="raiseAmount" type="range" :min="minRaise"
-              :max="player.count" class="slider">
-            <input type="text" v-model="raiseAmount" :placeholder="raiseAmount" id="raise-input">
+          <div v-if="!isAllInToMinRaise && !callPlusExtra && !isAllInToCall"
+               class="tbl-panel-inputs">
+            <input v-model="raiseTo" type="range" :min="minRaiseTo"
+              :max="maxRaiseTo" class="slider">
+            <input type="text" v-model="raiseTo" :placeholder="raiseTo" id="raise-input">
           </div>
         </template>
       </div>
@@ -75,23 +76,46 @@ export default {
     return {
       table: undefined,
       player: undefined,
-      raiseAmount: 0,
+      raiseTo: 0,
       minRaise: 0,
+      minRaiseTo: 0,
       callAmount: 0,
-      allInCall: false,
-      allInRaise: false,
+      isAllInToCall: false,
+      isAllInToMinRaise: false,
+      callPlusExtra: false,
     };
   },
 
 
   methods: {
     action(act) {
-      this.socket.emit(`player_${act}`, {
+      const action = (act === 'raise' && this.callPlusExtra) ? 'call' : act;
+
+      this.socket.emit(`player_${action}`, {
         username: this.user,
         tableName: this.table.name,
-        callAmount: this.callAmount,
-        raiseAmount: this.raiseAmount,
+        callAmount: this.isAllInToCall
+          ? this.player.count
+          : this.callAmount,
+        extraAmount: this.callPlusExtra
+          ? (this.player.count - this.callAmount)
+          : 0,
+        raise: (act === 'raise')
+          ? { amount: +this.raiseTo - this.player.lastBet, to: +this.raiseTo }
+          : 0,
       });
+    },
+  },
+
+  computed: {
+    raiseTxt() {
+      return this.callPlusExtra || this.isAllInToMinRaise || (+this.raiseTo === this.maxRaiseTo)
+        ? 'Raise ALL IN'
+        : `Raise to ${this.raiseTo}`;
+    },
+
+    callTxt() {
+      return this.isAllInToCall ? 'Call ALL IN' : `Call ${this.callAmount}`;
     },
   },
 
@@ -102,18 +126,24 @@ export default {
       this.player = table.players.find(plyr => plyr.username === this.user);
 
       this.callAmount = table.lastBet - this.player.lastBet;
-      this.minRaise = table.lastBet + (table.lastRaise || table.bigBlind);
-      this.raiseAmount = this.minRaise;
+      this.minRaise = table.lastRaise || table.bigBlind;
+      this.minRaiseTo = table.lastBet + this.minRaise;
+      this.maxRaiseTo = this.player.count + this.player.lastBet;
 
-      this.allInCall = this.playerCount < this.callAmount;
-      this.allInRaise = this.playerCount < this.minRaise;
+      this.isAllInToCall = this.player.count <= this.callAmount;
+      this.callPlusExtra = this.maxRaiseTo < this.minRaiseTo;
+      this.isAllInToMinRaise = this.maxRaiseTo === this.minRaiseTo;
+
+      this.raiseTo = this.minRaiseTo;
     });
   },
+
 
   beforeDestroy() {
     this.socket.removeAllListeners('update_table');
   },
 };
+
 </script>
 
 

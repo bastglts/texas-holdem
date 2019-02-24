@@ -7,4 +7,5 @@ module.exports = {
   leaveTable: require('./leaveTable'),
   fold: require('./fold'),
   call: require('./call'),
+  raise: require('./raise'),
 };

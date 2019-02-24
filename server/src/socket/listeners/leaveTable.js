@@ -4,7 +4,8 @@
 const Table = require('../../models/table');
 const User = require('../../models/user');
 const updateHiddenTable = require('../utils/updateHiddenTable');
-
+const nextTurn = require('../utils/nextTurn');
+const nextPlayerWins = require('../utils/nextPlayerWins');
 
 /**
  * Remove player from the table.
@@ -21,50 +22,70 @@ module.exports = async (data, io) => {
     // Get the amount of chips the user is leaving the table with, its position in the current hand
     // and remove player at the same time
     let chips = 0;
-    let position = '';
+    let seatToEmpty = 0;
+    let playerLeavesInTurn = false;
 
     table.players = table.players.filter(player => {
       if (player.username !== data.username) {
         return true;
       }
       chips = player.count;
-      position = player.position;
+      seatToEmpty = player.seat;
+      table.currPlayerPos = player.position;
+      playerLeavesInTurn = player.isSpeaking;
 
       return false;
     });
 
-    // Remove this player's position for the hand currently playing,
-    // hence this player will be skipped once he leaves
-    table.positions.splice(table.positions.indexOf(position), 1);
+    // Note that player is folding (to skip him in later rounds, see `nextTurn`)
+    table.isCurrPlayerFolding = true;
+
+    // Empty the leaving player's seat
+    table.occupiedSeats = table.occupiedSeats.filter(seat => seat !== seatToEmpty);
 
 
-    // Update its account
+    // Update leaving player's account
     const player = await User.findOne({ username: data.username });
     player.count += chips;
     await player.save();
 
+    let msgEnd = '';
 
     // If the leaving player leave behind an empty table, delete it
     if (!table.players.length) {
       await Table.findOneAndDelete({ name: table.name });
-
-      io.emit('update_list');
     } else {
-      // If only one player remains, we empty table.round to allow a new hand to start
+      // If only one player remains at the table we empty table.round to allow a new hand to start
       // automatically when a new player joins the lonely cowboy (see './joinTable' line 55)
       if (table.players.length === 1) {
         table.round = '';
-        table.players[0].position = '';
       }
 
-      // Save document
-      const newTable = await table.save();
+      // Check if next player wins, or go next turn
+      // Get remaining playing players
+      const remainingPlayers = table.players.filter(player => !player.hasFolded);
 
-      // Emit events to update font-end accordingly
-      updateHiddenTable(newTable, io);
-      io.emit('update_list');
-      io.in(newTable.name).emit('msg', { msg: `${data.username} has left the table` });
+      // If there is just one player left playing the hand, she/he is the winner of this hand
+      if (remainingPlayers.length === 1) {
+        nextPlayerWins(table, io, remainingPlayers);
+
+        // Set end of message
+        msgEnd = ` so ${remainingPlayers[0].username} wins $${table.pot}`;
+      } else if (playerLeavesInTurn) {
+        // Give the turn to next player or start next round
+        nextTurn(table, io);
+      } else {
+        // Save document
+        const newTable = await table.save();
+
+        // Emit events to update font-end accordingly
+        updateHiddenTable(newTable, io);
+      }
     }
+
+    // Emit events to update font-end accordingly
+    io.emit('update_list');
+    io.in(table.name).emit('msg', { msg: `${data.username} has left the table` + msgEnd });
   } catch (err) {
     console.log(err);
   }

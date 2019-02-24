@@ -23,4 +23,7 @@ module.exports = (socket, io) => {
 
   // Player calls
   socket.on('player_call', (data) => listeners.call(data, io));
+
+  // Player raises
+  socket.on('player_raise', (data) => listeners.raise(data, io));
 };
