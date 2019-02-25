@@ -42,7 +42,7 @@ module.exports = async (data, io) => {
 
     // Empty the leaving player's seat
     table.occupiedSeats = table.occupiedSeats.filter(seat => seat !== seatToEmpty);
-
+    table.availSeats.push(seatToEmpty);
 
     // Update leaving player's account
     const player = await User.findOne({ username: data.username });
