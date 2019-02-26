@@ -115,7 +115,11 @@ export default {
     },
 
     callTxt() {
-      return this.isAllInToCall ? 'Call ALL IN' : `Call ${this.callAmount}`;
+      if (this.isAllInToCall) {
+        return 'Call ALL IN';
+      }
+
+      return this.callAmount === 0 ? 'Check' : `Call ${this.callAmount}`;
     },
   },
 
