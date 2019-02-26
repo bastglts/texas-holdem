@@ -22,7 +22,9 @@ module.exports = async (data, io) => {
         player.lastBet = player.lastBet + data.callAmount + data.extraAmount;
 
         // Set lastRaiser property to true if 'call plus extra' scenario
-        player.isLastRaiser = data.extraAmount > 0;
+        if (data.extraAmount > 0) {
+          player.isLastRaiser = true;
+        }
 
         // Note player's position
         table.currPlayerPos = player.position;
@@ -40,15 +42,17 @@ module.exports = async (data, io) => {
             ? ` calls $${data.callAmount}`
             : ` raises to ${table.lastBet + data.extraAmount} (ALL IN)`;
         io.in(table.name).emit('msg', { msg: player.username + msgEnd });
-      } else if (data.extraAmount > 0) {
-        // Erase last raiser
-        player.isLastRaiser = false;
+      } else {
+        if (data.extraAmount > 0) {
+          // Erase last raiser if 'call plus extra' scenario
+          player.isLastRaiser = false;
+        }
       }
     }
 
 
     // Give the turn to next player or start next round
-    await nextTurn(table, io);
+    nextTurn(table, io);
   } catch (err) {
     console.log(err);
   }
