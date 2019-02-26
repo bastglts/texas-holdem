@@ -22,13 +22,10 @@ module.exports = async function nextTurn (table, io) {
       // Check if betting round is over
       if (nextPlayer.isLastRaiser) {
         // Save table
-        const newTable = await table.save();
+        await table.save();
 
         // Emit node event to start next round
         ee.emit('start_next_round', { tableName: table.name, io: io });
-
-        // Emit socket events to update font-end accordingly
-        updateHiddenTable(newTable, io);
       } else if (nextPlayer.isAllIn) {
         table.currPlayerPos = nextPlayer.position;
 
@@ -39,6 +36,14 @@ module.exports = async function nextTurn (table, io) {
 
         // Set lastRaiser disguise if necessary
         nextPlayer.isLastRaiser = table.disguiseNextPlayer || false;
+
+        // If next player was the last true raiser (i.e. he has raised and then faced an incomplete
+        // all-in raise ('call plus extra' rule)) and action comes back to him without any legal
+        // re-raise in between, he is NOT facing a raise, therefore as he cannot raise himself, he
+        // can only fold or call the extra amount
+        if (nextPlayer.username === table.lastLegalRaiser) {
+          nextPlayer.canRaise = false;
+        }
 
         // Save table
         const newTable = await table.save();
