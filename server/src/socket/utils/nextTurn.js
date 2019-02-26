@@ -21,11 +21,11 @@ module.exports = async function nextTurn (table, io) {
     if (nextPlayer.position === table.nextPlayerPos) {
       // Check if betting round is over
       if (nextPlayer.isLastRaiser) {
-        // Emit node event to start next round
-        ee.emit('start_next_round', { tableName: table.name, io: io });
-
         // Save table
         const newTable = await table.save();
+
+        // Emit node event to start next round
+        ee.emit('start_next_round', { tableName: table.name, io: io });
 
         // Emit socket events to update font-end accordingly
         updateHiddenTable(newTable, io);
