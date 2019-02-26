@@ -19,11 +19,11 @@ module.exports = (socket, io) => {
   socket.on('leave_table', (data) => listeners.leaveTable(data, io));
 
   // Player folds
-  socket.on('player_fold', (data) => listeners.fold(data, io));
+  socket.on('fold', (data) => listeners.fold(data, io));
 
   // Player calls
-  socket.on('player_call', (data) => listeners.call(data, io));
+  socket.on('call', (data) => listeners.call(data, io));
 
   // Player raises
-  socket.on('player_raise', (data) => listeners.raise(data, io));
+  socket.on('raise', (data) => listeners.raise(data, io));
 };

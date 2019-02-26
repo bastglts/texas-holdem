@@ -91,7 +91,7 @@ export default {
     action(act) {
       const action = (act === 'raise' && this.callPlusExtra) ? 'call' : act;
 
-      this.socket.emit(`player_${action}`, {
+      this.socket.emit(`${action}`, {
         username: this.user,
         tableName: this.table.name,
         callAmount: this.isAllInToCall
