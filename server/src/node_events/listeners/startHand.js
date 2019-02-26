@@ -53,24 +53,20 @@ module.exports = async (data) => {
       table.buttonSeat = table.occupiedSeats[0];
       ordSeats = table.occupiedSeats;
     } else {
-      console.log('buttonSeat before:', table.buttonSeat);
       table.buttonSeat = turnButton(table.buttonSeat, table.occupiedSeats);
-      console.log('buttonSeat after:', table.buttonSeat);
-      console.log('occupiedSeats:', table.occupiedSeats);
+
       const idxOfButtonSeat = table.occupiedSeats.indexOf(table.buttonSeat);
-      console.log('idxOfButtonSeat:', idxOfButtonSeat);
+
       ordSeats = [
         ...table.occupiedSeats.slice(idxOfButtonSeat),
         ...table.occupiedSeats.slice(0, idxOfButtonSeat),
       ];
-      console.log('ordSeats:', ordSeats);
     }
 
     for (let i = 0; i < numPlayers; i++) {
       seatsToPositions[ordSeats[i]] = table.positions[i];
     }
 
-    console.log(seatsToPositions);
 
     /* ---------------- Set players properties ---------------- */
     for (const player of table.players) {
