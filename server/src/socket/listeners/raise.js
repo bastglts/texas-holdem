@@ -13,6 +13,7 @@ module.exports = async (data, io) => {
     table.pot += data.raise.amount;
     table.lastRaise = data.raise.to - table.lastBet;
     table.lastBet = data.raise.to;
+    table.lastLegalRaiser = data.username;
 
     // Loop over players to find the one who is raising
     for (const player of table.players) {
@@ -44,6 +45,14 @@ module.exports = async (data, io) => {
       } else {
         // Erase last raiser
         player.isLastRaiser = false;
+
+        // If a player was the last true raiser before the current one, i.e. she/he has raised
+        // and then faced an incomplete all-in raise ('call plus extra' rule) and the current
+        // player is legally re-raising before he/she speaks again, he/she will
+        // be able to re-raise again so we must now authorize him/her to do so
+        if (!player.canRaise) {
+          player.canRaise = true;
+        }
       }
     }
 

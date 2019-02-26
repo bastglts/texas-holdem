@@ -40,8 +40,16 @@ module.exports = async (data, io) => {
           ? ' checks'
           : data.extraAmount === 0
             ? ` calls $${data.callAmount}`
-            : ` raises to ${table.lastBet + data.extraAmount} (ALL IN)`;
+            : ` raises to ${player.lastBet} (ALL IN)`;
         io.in(table.name).emit('msg', { msg: player.username + msgEnd });
+
+        // If current player was the last true raiser (i.e. she/he has raised and then faced an
+        // incomplete all-in raise ('call plus extra' rule)) and action came back to him/her
+        // without any legal re-raise in between, (s)he couldn't raise but just call (here we are)
+        // or fold. We must now authorize him/her to raise in next betting rounds
+        if (!player.canRaise) {
+          player.canRaise = true;
+        }
       } else {
         if (data.extraAmount > 0) {
           // Erase last raiser if 'call plus extra' scenario

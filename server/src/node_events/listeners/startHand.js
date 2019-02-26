@@ -36,9 +36,13 @@ module.exports = async (data) => {
     table.pot = table.bigBlind + table.smallBlind;
     table.lastBet = table.bigBlind;
     table.lastRaise = 0;
+    table.lastLegalRaiser = '';
 
     // Set betting round to pre-flop
     table.round = 'Preflop';
+
+    // Empty board
+    table.board = [];
 
     // Set table positions (button = small blind for a Heads Up)
     table.positions = numPlayers > 2
@@ -73,6 +77,7 @@ module.exports = async (data) => {
       // Every player sitting at the table will automatically play the hand
       player.hasFolded = false;
       player.isAllIn = false;
+      player.canRaise = true;
 
       // Deal cards to player and compute pocket hand's value and name
       player.holeCards = [table.shuffledDeck.pop(), table.shuffledDeck.pop()];

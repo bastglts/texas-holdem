@@ -26,6 +26,7 @@ const TableSchema = new Schema({
     isAllIn: Boolean,
     isLastRaiser: Boolean,
     seat: Number,
+    canRaise: Boolean,
   }],
   board: Array,
   pot: Number,
@@ -40,6 +41,7 @@ const TableSchema = new Schema({
   availSeats: [Number],
   occupiedSeats: [Number],
   buttonSeat: Number,
+  lastLegalRaiser: String,
 });
 
 /* ------------ Create and export Model ----------- */

@@ -42,10 +42,11 @@
           <div class="tbl-panel-btns">
             <button @click="action('fold')">Fold</button>
             <button @click="action('call')">{{callTxt}}</button>
-            <button v-if="!isAllInToCall" @click="action('raise')">{{raiseTxt}}</button>
+            <button v-if="!isAllInToCall && player.canRaise"
+              @click="action('raise')">{{raiseTxt}}</button>
           </div>
 
-          <div v-if="!isAllInToMinRaise && !callPlusExtra && !isAllInToCall"
+          <div v-if="!isAllInToMinRaise && !callPlusExtra && !isAllInToCall && player.canRaise"
                class="tbl-panel-inputs">
             <input v-model="raiseTo" type="range" :min="minRaiseTo"
               :max="maxRaiseTo" class="slider">

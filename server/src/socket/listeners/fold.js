@@ -27,6 +27,7 @@ module.exports = async (data, io) => {
         player.hand = {};
         player.hasFolded = true;
         player.isLastRaiser = false;
+        player.canRaise = true;
         player.isAllIn = false;
         player.isSpeaking = false;
         player.lastBet = 0;
@@ -36,6 +37,14 @@ module.exports = async (data, io) => {
 
         // Note that player is folding (to skip him in later rounds, see `nextTurn`)
         table.isCurrPlayerFolding = true;
+
+        // If current player was the last true raiser (i.e. she/he has raised and then faced an
+        // incomplete all-in raise ('call plus extra' rule)) and action came back to him/her
+        // without any legal re-raise in between, (s)he couldn't raise but just call
+        // or fold (here we are). We must now authorize him/her to raise in next betting rounds
+        if (!player.canRaise) {
+          player.canRaise = true;
+        }
 
         // Display message
         io.in(table.name).emit('msg', { msg: `${player.username} folds` });

@@ -48,6 +48,7 @@ module.exports = async (data, io, socket) => {
       isPlaying: false,
       isAllIn: false,
       seat: seat[0],
+      canRaise: true,
     });
 
     // Save the document
