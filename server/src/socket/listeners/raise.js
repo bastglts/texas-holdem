@@ -49,7 +49,7 @@ module.exports = async (data, io) => {
 
 
     // Give the turn to next player or start next round
-    await nextTurn(table, io);
+    nextTurn(table, io);
   } catch (err) {
     console.log(err);
   }

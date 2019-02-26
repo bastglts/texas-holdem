@@ -52,10 +52,10 @@ module.exports = async (data, io) => {
 
     // If there is just one player left, she/he is the winner of this hand
     if (remainingPlayers.length === 1) {
-      await nextPlayerWins(table, io, remainingPlayers);
+      nextPlayerWins(table, io, remainingPlayers);
     } else {
       // Give the turn to next player or start next round
-      await nextTurn(table, io);
+      nextTurn(table, io);
     }
   } catch (err) {
     console.log(err);
