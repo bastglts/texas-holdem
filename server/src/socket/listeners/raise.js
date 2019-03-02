@@ -35,7 +35,6 @@ module.exports = async (data, io) => {
         // Set all-in property if needed
         player.isAllIn = player.count === 0;
 
-
         // Display message
         const allInMsg = player.isAllIn ? 'ALL IN' : '';
 
