@@ -10,7 +10,7 @@ module.exports = async (data, io) => {
     const table = await Table.findOne({ name: data.tableName });
 
     // Adjust table pot
-    table.pot += data.callAmount;
+    table.pot += data.callAmount + data.extraAmount;
     table.lastBet += data.extraAmount;
 
     // Loop over players to find the one who is calling
