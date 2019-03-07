@@ -42,6 +42,12 @@ const TableSchema = new Schema({
   occupiedSeats: [Number],
   buttonSeat: Number,
   lastLegalRaiser: String,
+  sidePots: [{
+    claimers: [String],
+    initiators: [String],
+    extract: Number,
+    value: Number,
+  }],
 });
 
 /* ------------ Create and export Model ----------- */
