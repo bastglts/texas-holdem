@@ -98,7 +98,7 @@ export default {
         callAmount: this.isAllInToCall
           ? this.player.count
           : this.callAmount,
-        extraAmount: this.callPlusExtra
+        extraAmount: (act === 'raise' && this.callPlusExtra)
           ? (this.player.count - this.callAmount)
           : 0,
         raise: (act === 'raise')
