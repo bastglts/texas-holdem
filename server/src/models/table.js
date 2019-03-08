@@ -18,6 +18,7 @@ const TableSchema = new Schema({
       name: String,
       value: Number,
       ordered: [Number],
+      handStr: String,
     },
     hasFolded: Boolean,
     position: String,
@@ -41,6 +42,7 @@ const TableSchema = new Schema({
   availSeats: [Number],
   occupiedSeats: [Number],
   buttonSeat: Number,
+  bestCards: [String],
   lastLegalRaiser: String,
   sidePots: [{
     claimers: [String],

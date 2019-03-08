@@ -1,17 +1,17 @@
 <template>
-    <img :src="require(`../assets/cards/${card}.svg`)" :alt="card">
+    <img v-bind:class="{shade: isShaded}" :src="require(`../assets/cards/${card}.svg`)" :alt="card">
 </template>
 
 <script>
 export default {
   name: 'Card',
 
-  props: ['card'],
+  props: ['card', 'bestCards'],
 
-  data() {
-    return {
-
-    };
+  computed: {
+    isShaded() {
+      return this.bestCards.length ? !this.bestCards.includes(this.card) : false;
+    },
   },
 };
 </script>
@@ -21,6 +21,11 @@ export default {
   position: absolute;
   top: 39.5%;
   width: 8%;
+}
+
+.shade {
+  -webkit-filter: brightness(0.5);
+  filter: brightness(0.5);
 }
 
 #bc0 {

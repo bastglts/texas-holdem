@@ -15,7 +15,7 @@ module.exports = (players) => {
   // Check for ties
   for (let i = 0; i < sortedPlayers.length; i++) {
     // Push player to winners array
-    winners.push(sortedPlayers[i].username);
+    winners.push(sortedPlayers[i]);
 
     // If we arrive to last player, there is no next player to compare hands with (hence the break)
     if (i === (sortedPlayers.length - 1)) {

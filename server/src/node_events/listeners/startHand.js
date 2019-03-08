@@ -35,6 +35,7 @@ module.exports = async (data) => {
     table.bigBlind = 20;
     table.pot = table.bigBlind + table.smallBlind;
     table.sidePots = [];
+    table.bestCards = [];
     table.lastBet = table.bigBlind;
     table.lastRaise = 0;
     table.lastLegalRaiser = '';

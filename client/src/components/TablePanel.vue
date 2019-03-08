@@ -24,6 +24,7 @@
           :id="`player${player.seat}`"
           :seat="player.seat"
           :player="player"
+          :bestCards="bestCards"
         />
 
         <p id="pot-count">Pot: ${{table.pot}}</p>
@@ -34,6 +35,7 @@
           :key="card"
           :id="`bc${idx}`"
           :card="card"
+          :bestCards="bestCards"
         />
       </div>
 
@@ -64,6 +66,7 @@ export default {
     return {
       table: undefined,
       player: undefined,
+      bestCards: undefined,
     };
   },
 
@@ -71,6 +74,8 @@ export default {
     this.socket.on('update_table', (table) => {
       this.table = table;
       this.player = table.players.find(plyr => plyr.username === this.user);
+
+      this.bestCards = table.bestCards;
     });
   },
 

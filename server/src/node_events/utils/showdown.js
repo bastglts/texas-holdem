@@ -30,6 +30,12 @@ module.exports = async (table, io) => {
 
     const winners = determineWinners(players);
 
+    if (i === (table.sidePots.length - 1)) {
+      table.bestCards = winners[0].hand.handStr.split(' ');
+
+      io.in(table.name).emit('update_table', table);
+    }
+
     const winningAmount = (pot.value / winners.length);
 
     const msgEnd = (i === 0) ? 'main pot' : `side pot #${i}`;
@@ -37,7 +43,7 @@ module.exports = async (table, io) => {
     // Loop over players
     for (const player of table.players) {
       // Find the winner(s)
-      if (winners.includes(player.username)) {
+      if (winners.includes(player)) {
         player.count += winningAmount;
 
         io.in(table.name).emit('msg', {

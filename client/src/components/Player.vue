@@ -5,7 +5,8 @@
             v-for="(card, idx) in player.holeCards"
             :key="idx"
             :id="`bc${idx}`"
-            :card="card"/>
+            :card="card"
+            :bestCards="bestCards"/>
     </div>
     <p> {{ player.username }} </p>
     <p v-if="player.lastBet" class="bet" :id="`bet${seat}`"> ${{ player.lastBet }} </p>
@@ -26,7 +27,7 @@ import Card from './Card.vue';
 export default {
   name: 'Player',
 
-  props: ['player', 'seat'],
+  props: ['player', 'seat', 'bestCards'],
 
   components: {
     Card,
