@@ -8,7 +8,7 @@
       <div class="msg-list">
         <div v-for="(msg, idx) in msgs" :key="idx">
           <p v-if="msg.user">{{ msg.user }}: {{ msg.msg }}</p>
-          <p v-else class="warning">{{ msg.msg }}</p>
+          <p v-else class="server-msg">{{ msg.msg }}</p>
         </div>
       </div>
   </div>
@@ -55,6 +55,8 @@ export default {
   border-left-style: solid;
   border-left-color: #050517;
   font-size: 1.3vw;
+  background-color: #050517bd;
+  color: #f8fff4;
 }
 
 .chat-panel input {
@@ -62,6 +64,7 @@ export default {
   height: 5%;
   border: #f8fff4;
   font-size: 1.3vw;
+  color: #f8fff4;
 }
 
 .msg-list {
@@ -70,5 +73,9 @@ export default {
   border-top-width: 10%;
   border-top-style: solid;
   border-top-color: #050517;
+}
+
+.server-msg {
+  color: #ee6a3e;
 }
 </style>
