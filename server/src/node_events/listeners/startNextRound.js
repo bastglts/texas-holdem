@@ -31,6 +31,9 @@ module.exports = async (data) => {
 
     // If we arrive to the showdown, determine winner(s), split pot etc...
     if (table.round === 'River') {
+      // Reveal players' cards
+      data.io.in(table.name).emit('update_table', table);
+
       showdown(table, data.io);
     } else { // For flop, turn or river
       const fastForward = (remainingPlayers.length - allInPlayers.length) < 2;

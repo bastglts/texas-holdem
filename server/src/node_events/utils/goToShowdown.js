@@ -7,13 +7,13 @@ const computeHand = require('./computeHand');
 
 
 module.exports = async function goToShowdown (table, io) {
+  // Reveal players's cards and/or board cards
+  io.in(table.name).emit('update_table', table);
+
   // If we arrive to the showdown, determine winner(s), split pot etc...
   if (table.round === 'River') {
     showdown(table, io);
   } else {
-    // Reveal players's cards or board cards
-    io.in(table.name).emit('update_table', table);
-
     // Deal board cards and increment round
     dealBoardCards(table);
 
