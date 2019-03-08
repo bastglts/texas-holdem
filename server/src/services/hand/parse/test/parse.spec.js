@@ -10,6 +10,7 @@ describe('parse > strToHand', () => {
       name: 'Pair',
       value: 1,
       ordered: [2, 2, 8, 5, 4],
+      handStr: handStr,
     };
 
     expect(strToHand(handStr)).toEqual(out);

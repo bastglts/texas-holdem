@@ -11,10 +11,17 @@ const suitsAndValuesToHand = require('./suitsAndValuesToHand');
  *
  * @param {String} handStr Hand in string format, e.g. "KS AS TS QS JS".
  *
- * @returns {Object}     Object containing three properties. Its value property goes
+ * @returns {Object}     Object containing four properties. Its value property goes
  *                       from 0 for Highcard to 9 for Royal Flush, its name property
  *                       is the name of the hand (string). Its ordered property
  *                       is an array of ordered card values for easy comparing in case of
- *                       a tie, for example [9, 9, 5, 5, 12] for 2 pairs.
+ *                       a tie, for example [9, 9, 5, 5, 12] for 2 pairs. And there's a handStr
+ *                       property which is the input.
  */
-module.exports = R.compose(suitsAndValuesToHand, strToSuitsAndValues);
+module.exports = (handStr) => {
+  const out = R.compose(suitsAndValuesToHand, strToSuitsAndValues)(handStr);
+
+  out['handStr'] = handStr;
+
+  return out;
+};
